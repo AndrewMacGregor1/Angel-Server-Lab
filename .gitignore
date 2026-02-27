@@ -1,0 +1,9 @@
+# Ignore the hidden Obsidian settings folder
+.obsidian/
+
+# Ignore OS-specific "junk" files
+.DS_Store
+Thumbs.db
+
+# Ignore any temporary workspace data
+workspace.json
