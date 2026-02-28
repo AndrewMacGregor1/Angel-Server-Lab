@@ -11,13 +11,33 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-02: ISO Management](./01_Learning/SOP-02_ISO_Management.md)** — Network transfer of OS images to the server.
 - **[SOP-03: VM Shell Creation](./01_Learning/SOP-03_VM_Shell_Creation.md)** — Resource allocation and virtual hardware configuration.
 - **[SOP-04: Ubuntu Provisioning](./01_Learning/SOP-04_Ubuntu_Server_Provisioning.md)** — Finalizing the primary node and base hardening.
+- **[SOP-05: Guest Services & Data Integrity](./01_Learning/SOP-05_Guest_Services_&_Data_Integrity.md)** — QEMU Agent setup and Proxmox snapshotting.
+- **[SOP-06: System Hardening & Directory Structure](./01_Learning/SOP-06_System_Hardening_&_Directory_Structure.md)** — UFW firewall and /opt/docker organization.
+- **[SOP-07: Containerization](./01_Learning/SOP-07_Containerization_(Docker_&_Portainer).md)** — Deploying Docker Engine and Portainer UI.
+- **[SOP-08: Reverse Proxy Deployment](./01_Learning/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** — Centralized traffic management and SSL.
+- **[SOP-09: Dynamic DNS Configuration](./01_Learning/SOP-09_Dynamic_DNS_(DDNS)_Configuration)** — Maintaining a persistent external FQDN.
+- **[SOP-10: Minecraft Bedrock Edition](./01_Learning/SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** — Deploying a persistent game world for cross-platform play.
+
 
 ## 3. Network Topology & Infrastructure
 
-- **Layer 1: [Physical Topology & Deployment Log](./01_Learning/Physical_Topology_Log.md)** — Details on the 100ft Ethernet run and site constraints.
-- **IP Management: [Current Network Cheat Sheet](./01_Learning/Network_Cheat_Sheet.md)** — Static IP assignments and gateway mapping.
+This section serves as the "Source of Truth" for the physical and logical layout of the lab. It provides a historical log of the physical deployment, current internal IP assignments, and external edge configurations required for remote access and service delivery.
+
+-  [Physical Topology & Deployment Log](./01_Learning/Physical_Topology_Log.md) — Details on the 100ft Ethernet run and site constraints.
+-  [Current Network Cheat Sheet](./01_Learning/Network_Cheat_Sheet.md) — Static IP assignments and gateway mapping.
+-  [Edge Config Log](./01_Learning/Edge_Config_Log.md) — Record of router port forwarding rules and DDNS tokens.
+-  [Service Port Map](./01_Learning/Service_Port_Map.md) — Quick-reference list of container-to-port mappings.
 
 ## 4. Maintenance & Versioning
 
-- **The Breakage Log: [Angel Server Breakage Log](./01_Learning/Angel_Server_Breakage_Log.md)** — Documenting technical hurdles and their subsequent resolutions.
-- **Project Archive: [Angel Server Archive](./02_Archive/Angel_Server_Archive.md)** — A historical record of project milestones and retired configurations.
+Documentation in this section tracks the operational health and evolution of the server. The Breakage Log acts as a troubleshooting repository for technical hurdles, while the Project Archive preserves a historical record of retired configurations and project milestones as the lab scales.
+
+-  [Angel Server Breakage Log](./01_Learning/Angel_Server_Breakage_Log.md) — Documenting technical hurdles and their subsequent resolutions.
+-  [Angel Server Archive](./02_Archive/Angel_Server_Archive.md) — A historical record of project milestones and retired configurations.
+
+## 5. Media & Content Tracking
+
+This section bridges the gap between technical implementation and public documentation for the YouTube series. It provides a direct mapping of SOPs to specific video episodes and acts as a scratchpad for future laboratory expansions and educational content ideas.
+
+- **[YouTube Video Log](./03_Content/YouTube_Video_Log.md)** — Links to episodes and the specific SOPs covered in each.
+- **[Episode Brainstorming](./03_Content/Episode_Brainstorming.md)** — Ideas for future lab expansions.

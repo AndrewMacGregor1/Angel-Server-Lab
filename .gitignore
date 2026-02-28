@@ -7,3 +7,24 @@ Thumbs.db
 
 # Ignore any temporary workspace data
 workspace.json
+
+# Exclude environment variables
+.env
+*.env
+secrets/
+00_Secrets/
+
+# Windows thumbnail cache
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS folder attributes
+.DS_Store
+
+# Obsidian system folder
+.obsidian/
+
+# Docker data volumes (ignore local database files)
+**/data/
+**/letsencrypt/

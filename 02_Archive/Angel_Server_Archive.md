@@ -1,4 +1,3 @@
-
 ## 1. Purpose
 
 The Archive serves as a historical record for retired hardware configurations, legacy network topologies, and superseded Standard Operating Procedures (SOPs). Maintaining this log ensures traceability and documentation integrity as the lab environment scales in complexity.

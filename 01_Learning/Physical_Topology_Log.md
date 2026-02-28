@@ -7,7 +7,6 @@ This section documents the physical environment and the logical solutions implem
 - **Environmental Gap:** The primary gateway is located in the basement, while the server node is situated in a third-floor workspace.
     
 - **Deployment Solution:** A dedicated 100ft Category-rated Ethernet run was deployed to establish a direct, low-latency path between the node and the gateway.
-    
 
 ## 2. Layer 1 Component Specifications
 
@@ -32,7 +31,6 @@ The cable run follows a documented path to ensure safety and signal integrity ov
 3. **Vertical Drop:** Routed through a banister and across the kitchen ceiling to a service penetration located behind the refrigerator.
     
 4. **Termination:** Connected directly to **Port 1** of the Cox Gateway in the basement.
-    
 
 ## 4. Maintenance & Connectivity Verification
 
