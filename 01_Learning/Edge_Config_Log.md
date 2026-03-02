@@ -1,50 +1,52 @@
-## 1. Purpose
+## 1. Lab Environment Reference
 
-This log documents the specific configurations applied to the network edge (router) to facilitate external access to internal services. It serves as a historical record for port forwarding rules and firewall exceptions required to maintain external connectivity.
+These values represent the current baseline for the server's network presence.
 
-## 2. Lab Environment Reference
-
-The following values represent the baseline configuration for the reference lab environment.
-
-|**Attribute**|**Lab Value (Example)**|**Context**|
+|**Attribute**|**Value**|**Context**|
 |---|---|---|
-|**Gateway IP**|`192.168.0.1`|Local Router Management Interface|
-|**Target Node IP**|`192.168.0.151`|Primary Linux Host/VM|
-|**DDNS Provider**|DuckDNS|External Domain Provider|
-|**DDNS Domain**|`[SUBDOMAIN].duckdns.org`|Active FQDN|
+|**Gateway IP**|`192.168.0.1`|Cox Panoramic Router Management|
+|**Target Node IP**|`192.168.0.151`|Primary Ubuntu VM (Angel-node-01)|
+|**DNS Provider**|Cloudflare|DNS-01 Challenge & Proxy Provider|
+|**Active Domain**|`angelserver.live`|Primary FQDN|
 
-## 3. Port Forwarding Rules
+---
 
-These rules direct specific external traffic from the public internet to the internal server.
+## 2. Port Forwarding Rules (Router Level)
 
-|**Service**|**External Port**|**Internal Port**|**Protocol**|**Target IP**|
-|---|---|---|---|---|
-|**HTTP (Web)**|80|80|TCP|`192.168.0.151`|
-|**HTTPS (SSL)**|443|443|TCP|`192.168.0.151`|
-|**Minecraft**|19132|19132|**UDP**|`192.168.0.151`|
+These rules dictate which "doors" are open on the Cox gateway to allow traffic to reach the Optiplex.
 
-## 4. Dynamic DNS Credentials
+| **Service**   | **External Port** | **Internal Port** | **Protocol** | **Status**                          |
+| ------------- | ----------------- | ----------------- | ------------ | ----------------------------------- |
+| **HTTP**      | 80                | 80                | TCP          | **Closed** (ISP Blocked/Not Needed) |
+| **HTTPS**     | 443               | 443               | TCP          | **Open** (Production Traffic)       |
+| **NPM Admin** | 81                | 81                | TCP          | **Open** (Remote Management)        |
+| **Minecraft** | 25565             | 25565             | TCP/UDP      | **Open** (Game Server)              |
 
-**Security Protocol:** All API tokens and sensitive credentials must be stored in a local `.env` file and excluded from version control via `.gitignore`.
+---
+## 3. SSL & DNS Configuration
 
-**Step 1: Token Management**
+**Security Protocol:** Sensitive API tokens are managed via Cloudflare and injected into Nginx Proxy Manager (NPM) to bypass Port 80 requirements.
 
-API tokens associated with the DDNS subdomain should be stored in the local environment file on the host system. Hard-coding these values into the documentation is strictly prohibited.
+**Step 1: DNS-01 Challenge Verification**
 
-**Step 2: Client Integration**
+- Instead of the HTTP-01 challenge, NPM uses a Cloudflare API Token to verify domain ownership.
+    
+- This allows for the generation of Wildcard Certificates (`*.angelserver.live`) while Port 80 remains closed.
+    
 
-The token is pulled into the container environment using the following configuration path:
+**Step 2: Dynamic IP Management**
 
-```
-/opt/docker/ddns/config/ddclient.conf
-```
-
-## 5. Maintenance & Verification
+- The home public IP is dynamic; synchronization is handled via a Cloudflare API integration.
+    
+- **Config Path:** `/opt/docker/npm/config/cloudflare.ini` (Reference for API token storage).
+    
+---
+## 4. Maintenance & Verification
 
 The following checks ensure continued external access after network interruptions:
 
-1. **DDNS Synchronization:** Confirm the DDNS provider reflects the current public IP of the network.
+1. **Cloudflare Proxy Status:** Ensure the "Orange Cloud" is active to hide the home public IP.
     
-2. **Port Verification:** Utilize an external port-probing tool to verify that ports 80, 443, and 19132 are in the "Open" state.
+2. **Port Verification:** Periodically use an external probe to verify Port 443 and 25565 are responding.
     
-3. **Service Logs:** Verify "heartbeat" updates in the container logs for the DDNS client.
+3. **SSL Renewal:** Confirm that NPM successfully renews certificates 30 days before expiration via the DNS challenge.

@@ -1,87 +1,99 @@
 ## 1. Purpose
 
-This procedure defines the setup of a Dynamic DNS (DDNS) client to maintain a consistent Fully Qualified Domain Name (FQDN) for the lab environment. This ensures that external services and users can reach the server using a custom hostname even if the ISP assigns a new public IP address.
+This procedure defines the integration of Cloudflare as the authoritative DNS provider for the **Angel Server**. It establishes two critical functions:
+
+1. **SSL/TLS via DNS-01:** Bypassing ISP-level Port 80 blocking by verifying domain ownership through DNS records.
+    
+2. **DDNS Automation:** Ensuring the `angelserver.live` A-record automatically updates whenever the residential public IP changes.
+    
 
 ## 2. Lab Environment Reference
 
-The following values are used as the baseline for the reference lab environment.
+|**Attribute**|**Value**|**Context**|
+|---|---|---|
+|**DNS Provider**|Cloudflare|Authoritative DNS & Proxy|
+|**Domain**|`angelserver.live`|Primary FQDN|
+|**Data Root**|`/opt/docker/cloudflare-ddns`|DDNS Configuration Directory|
+|**API Token**|[Cloudflare Token]|Permissions: Zone:DNS:Edit|
 
-| **Attribute**        | **Lab Value (Example)**        | **Context**                |
-| -------------------- | ------------------------------ | -------------------------- |
-| **Service Provider** | DuckDNS / Cloudflare           | DDNS Hosting Provider      |
-| **Custom Hostname**  | `[YOUR-SUBDOMAIN].duckdns.org` | The external access URL    |
-| **Data Root**        | `/opt/docker/ddns`             | Persistent script location |
-| **Update Interval**  | 5 Minutes                      | Frequency of IP checks     |
+## 3. Cloudflare & Registrar Handshake
 
-## 3. Provider Setup
-
-Before configuring the server, an account must be established with a DDNS provider to reserve a hostname.
-
-**Step 1: Register Hostname**
-
-1. Visit a DDNS provider (e.g., DuckDNS.org).
+1. **Nameserver Migration:** Update the domain registrar (e.g., Namecheap) to use Cloudflare’s assigned nameservers.
     
-2. Create a subdomain (e.g., `angel-server`).
-    
-3. Note the **API Token** provided by the service; this is required for the server to authenticate updates.
+2. **API Token Generation:** Create a "Zone:DNS:Edit" token in the Cloudflare Profile settings to allow the server to modify records programmatically.
     
 
-## 4. Deploying the DDNS Client via Docker
+## 4. Configuring DNS-01 in Nginx Proxy Manager
 
-Using a containerized client ensures the update script runs reliably in the background without manual intervention.
+1. **Access NPM Admin:** Navigate to `http://192.168.0.151:81`.
+    
+2. **Request Certificate:** Under **SSL Certificates**, select **Add Let's Encrypt Certificate**.
+    
+3. **Challenge Setup:**
+    
+    - **Domain Names:** `*.angelserver.live`, `angelserver.live`
+        
+    - **Use DNS Challenge:** Toggle **ON**
+        
+    - **DNS Provider:** Select **Cloudflare**
+        
+    - **Credentials:** Enter the Cloudflare API Token
+        
+    - **Propagation Seconds:** Set to `120`
+        
 
-**Step 1: Create the directory structure**
+## 5. Deploying DDNS Automation (Docker)
+
+This ensures the server "phones home" to Cloudflare to update your IP address automatically.
+
+**Step 1: Create the directory**
+
+Bash
 
 ```
-mkdir -p /opt/docker/ddns
+mkdir -p /opt/docker/cloudflare-ddns
+cd /opt/docker/cloudflare-ddns
 ```
 
 **Step 2: Create the Docker Compose file**
 
+Bash
+
 ```
-nano /opt/docker/ddns/docker-compose.yml
+nano docker-compose.yml
 ```
 
-**Step 3: Define the DDNS service**
+**Step 3: Define the service**
 
-_(Example using the popular `linuxserver/ddclient` image which supports multiple providers)_
+Paste the following, replacing `YOUR_API_TOKEN` with your actual token:
+
+YAML
 
 ```
 services:
-  ddclient:
-    image: lscr.io/linuxserver/ddclient:latest
-    container_name: ddclient
+  cloudflare-ddns:
+    image: oznu/cloudflare-ddns:latest
+    restart: always
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
-    volumes:
-      - ./config:/config
-    restart: unless-stopped
+      - API_KEY=YOUR_API_TOKEN
+      - ZONE=angelserver.live
+      - PROXIED=true
 ```
 
 **Step 4: Launch the container**
 
-```
-docker compose -f /opt/docker/ddns/docker-compose.yml up -d
-```
-
-## 5. Configuration and Verification
-
-The client must be pointed toward the specific DDNS provider and API token.
-
-**Step 1: Edit the configuration file** Modify the auto-generated config file (located in `/opt/docker/ddns/config/ddclient.conf`) to include the domain and API token following the provider's specific syntax.
-
-**Step 2: Post-SOP Verification** Check the container logs to confirm a "SUCCESS" message or an "IP updated" notification.
+Bash
 
 ```
-docker logs ddclient
+docker compose up -d
 ```
 
-**Step 3: DNS Resolution Test** Open a terminal on an external network (or use a phone on cellular data) and run a ping against the custom hostname.
+## 6. Post-SOP Verification
 
-```
-ping [YOUR-SUBDOMAIN].duckdns.org
-```
-
-**Step 4: Result** Confirm the ping returns the current public IP address of the home network.
+1. **SSL Validity:** Confirm the certificate status is "Active" in the NPM dashboard.
+    
+2. **Automation Logs:** Run `docker logs cloudflare-ddns` to verify the IP was detected and synced successfully.
+    
+3. **Proxy Status:** Verify the "Orange Cloud" (Proxy) is enabled in the Cloudflare dashboard to mask the home public IP.
+    
+4. **Resolution Test:** Run `ping angelserver.live` to confirm it resolves to a Cloudflare IP rather than your local gateway.
