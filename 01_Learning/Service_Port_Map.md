@@ -15,15 +15,15 @@ The following values represent the active primary node for the lab environment.
 
 This table tracks the mapping between the host's physical ports and the internal container ports.
 
-| **Service**             | **Host Port** | **Container Port** | **Protocol** | **Reference**                                             |
-| ----------------------- | ------------- | ------------------ | ------------ | --------------------------------------------------------- |
-| **SSH**                 | 22            | 22                 | TCP          | [[SOP-04_Ubuntu_Server_Provisioning]]                     |
-| **Portainer (HTTPS)**   | 9443          | 9443               | TCP          | [[SOP-07_Containerization_(Docker_&_Portainer)]]          |
-| **Nginx Proxy (HTTP)**  | 80            | 80                 | TCP          | [[SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager)]] |
-| **Nginx Proxy (HTTPS)** | 443           | 443                | TCP          | [[SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager)]] |
-| **Nginx Admin UI**      | 81            | 81                 | TCP          | [[SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager)]] |
-| **Minecraft Bedrock**   | 19132         | 19132              | **UDP**      | [[SOP-10_Minecraft_Bedrock_Edition_Deployment]]           |
-|                         |               |                    |              |                                                           |
+| **Service**             | **Host Port** | **Container Port** | **Protocol** | **Reference**                                                                                                   |     |
+| ----------------------- | ------------- | ------------------ | ------------ | --------------------------------------------------------------------------------------------------------------- | --- |
+| **SSH**                 | 22            | 22                 | TCP          | **[SOP-04: Ubuntu Provisioning](../01_Learning/SOP-04_Ubuntu_Server_Provisioning.md)**                          |     |
+| **Portainer (HTTPS)**   | 9443          | 9443               | TCP          | **[SOP-07: Containerization](../01_Learning/SOP-07_Containerization_(Docker_&_Portainer).md)**                  |     |
+| **Nginx Proxy (HTTP)**  | 80            | 80                 | TCP          | **[SOP-08: Reverse Proxy Deployment](../01_Learning/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** |     |
+| **Nginx Proxy (HTTPS)** | 443           | 443                | TCP          | **[SOP-08: Reverse Proxy Deployment](../01_Learning/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** |     |
+| **Nginx Admin UI**      | 81            | 81                 | TCP          | **[SOP-08: Reverse Proxy Deployment](../01_Learning/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** |     |
+| **Minecraft Bedrock**   | 19132         | 19132              | **UDP**      | **[SOP-10: Minecraft Bedrock Edition](../01_Learning/SOP-10_Minecraft_Bedrock_Edition_Deployment.md)**          |     |
+|                         |               |                    |              |                                                                                                                 |     |
 
 ## 4. Conflict Resolution
 
