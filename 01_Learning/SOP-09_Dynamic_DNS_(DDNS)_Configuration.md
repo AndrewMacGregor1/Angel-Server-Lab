@@ -48,16 +48,12 @@ This ensures the server "phones home" to Cloudflare to update your IP address au
 
 **Step 1: Create the directory**
 
-Bash
-
 ```
 mkdir -p /opt/docker/cloudflare-ddns
 cd /opt/docker/cloudflare-ddns
 ```
 
 **Step 2: Create the Docker Compose file**
-
-Bash
 
 ```
 nano docker-compose.yml
@@ -66,8 +62,6 @@ nano docker-compose.yml
 **Step 3: Define the service**
 
 Paste the following, replacing `YOUR_API_TOKEN` with your actual token:
-
-YAML
 
 ```
 services:
@@ -81,8 +75,6 @@ services:
 ```
 
 **Step 4: Launch the container**
-
-Bash
 
 ```
 docker compose up -d
