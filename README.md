@@ -62,6 +62,4 @@ The lab has completed its core infrastructure and containerization phases. The n
 
 - **[01_Learning:](./01_Learning/SOP-01_Proxmox_Installation.md)** Technical SOPs, Physical Topology Logs, and the Service Port Map.
     
-- **[02_Archive:](./02_Archive/Angel_Server_Hardware.md)** Hardware Bill of Materials (BOM) and retired configuration milestones.
-    
 - **[Angel Server MOC:](./Angel_Server_MOC.md)** The Map of Content for quick navigation across the entire project.

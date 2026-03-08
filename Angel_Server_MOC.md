@@ -29,7 +29,7 @@ This section serves as the "Source of Truth" for the physical and logical layout
 
 ## 4. Maintenance & Versioning
 
-Documentation in this section tracks the operational health and evolution of the server. The Breakage Log acts as a troubleshooting repository for technical hurdles, while the Project Archive preserves a historical record of retired configurations and project milestones as the lab scales.
+Documentation in this section tracks the operational health and evolution of the server. The Breakage Log acts as a troubleshooting repository for technical hurdles.
 
 -  [Angel Server Breakage Log](./01_Learning/Angel_Server_Breakage_Log.md) — Documenting technical hurdles and their subsequent resolutions.
 
