@@ -1,29 +1,18 @@
-# Ignore the hidden Obsidian settings folder
+# Ignore the hidden Obsidian settings and workspace data
 .obsidian/
-
-# Ignore OS-specific "junk" files
-.DS_Store
-Thumbs.db
-
-# Ignore any temporary workspace data
 workspace.json
 
-# Exclude environment variables
+# Exclude environment variables and secrets
 .env
 *.env
 secrets/
 00_Secrets/
 
-# Windows thumbnail cache
+# Ignore OS-specific "junk" files (Windows & macOS)
 Thumbs.db
 ehthumbs.db
 Desktop.ini
-
-# macOS folder attributes
 .DS_Store
-
-# Obsidian system folder
-.obsidian/
 
 # Docker data volumes (ignore local database files)
 **/data/

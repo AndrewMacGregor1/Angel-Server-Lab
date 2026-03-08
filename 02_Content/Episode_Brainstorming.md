@@ -1,4 +1,4 @@
-### **1. Phase 2: Home Lab Utility**
+## **Home Lab Utility
 
 - **Network-Wide Ad-Blocking (Pi-hole or AdGuard Home):**
     
@@ -17,7 +17,7 @@
     - **Concept:** A clean web interface to launch all your "Angel Server" apps without typing ports.
         
 
-### **2. Phase 3: Storage Expansion & Hardware Upgrades**
+## **Storage Expansion & Hardware Upgrades**
 
 - **The SSD/HDD Migration:**
     
@@ -30,7 +30,7 @@
     - **Concept:** Real-time monitoring of your services with phone notifications if Minecraft or NPM goes down.
         
 
-### **3. Phase 4: Media & Content**
+## Media & Content
 
 - **Automated Media Server (Plex or Jellyfin):**
     
@@ -39,7 +39,7 @@
     - **Educational Goal:** Hardware passthrough in Proxmox and managing large media libraries.
         
 
-### **4. Long-Term Infrastructure (CCNA Focus)**
+## **Long-Term Infrastructure (CCNA Focus)**
 
 - **Physical Networking with Cisco:**
     

@@ -18,7 +18,6 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-09: Dynamic DNS Configuration](./01_Learning/SOP-09_Dynamic_DNS_(DDNS)_Configuration)** — Maintaining a persistent external FQDN.
 - **[SOP-10: Minecraft Bedrock Edition](./01_Learning/SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** — Deploying a persistent game world for cross-platform play.
 
-
 ## 3. Network Topology & Infrastructure
 
 This section serves as the "Source of Truth" for the physical and logical layout of the lab. It provides a historical log of the physical deployment, current internal IP assignments, and external edge configurations required for remote access and service delivery.
@@ -33,11 +32,10 @@ This section serves as the "Source of Truth" for the physical and logical layout
 Documentation in this section tracks the operational health and evolution of the server. The Breakage Log acts as a troubleshooting repository for technical hurdles, while the Project Archive preserves a historical record of retired configurations and project milestones as the lab scales.
 
 -  [Angel Server Breakage Log](./01_Learning/Angel_Server_Breakage_Log.md) — Documenting technical hurdles and their subsequent resolutions.
--  [Angel Server Archive](./02_Archive/Angel_Server_Archive.md) — A historical record of project milestones and retired configurations.
 
 ## 5. Media & Content Tracking
 
 This section bridges the gap between technical implementation and public documentation for the YouTube series. It provides a direct mapping of SOPs to specific video episodes and acts as a scratchpad for future laboratory expansions and educational content ideas.
 
-- **[YouTube Video Log](./03_Content/YouTube_Video_Log.md)** — Links to episodes and the specific SOPs covered in each.
-- **[Episode Brainstorming](./03_Content/Episode_Brainstorming.md)** — Ideas for future lab expansions.
+- **[YouTube Video Log](YouTube_Video_Log.md)** — Links to episodes and the specific SOPs covered in each.
+- **[Episode Brainstorming](Episode_Brainstorming.md)** — Ideas for future lab expansions.

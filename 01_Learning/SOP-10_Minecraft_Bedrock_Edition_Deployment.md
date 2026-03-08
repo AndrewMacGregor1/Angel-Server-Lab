@@ -6,12 +6,12 @@ This procedure defines the deployment of a dedicated Minecraft Bedrock Edition s
 
 The following values are used as the baseline for the reference lab environment.
 
-|**Attribute**|**Lab Value (Example)**|**Context**|
-|---|---|---|
-|**Service Image**|`itzg/minecraft-bedrock-server`|Optimized Bedrock Docker image|
-|**Data Root**|`/opt/docker/minecraft`|Persistent world data location|
-|**Default Port**|`19132`|Standard Bedrock UDP port|
-|**Protocol**|UDP|Required protocol for Bedrock traffic|
+| **Attribute**     | **Lab Value (Example)**         | **Context**                           |
+| ----------------- | ------------------------------- | ------------------------------------- |
+| **Service Image** | `itzg/minecraft-bedrock-server` | Optimized Bedrock Docker image        |
+| **Data Root**     | `/opt/docker/minecraft`         | Persistent world data location        |
+| **Default Port**  | `19132`                         | Standard Bedrock UDP port             |
+| **Protocol**      | UDP                             | Required protocol for Bedrock traffic |
 
 ## 3. Directory and Data Preparation
 
@@ -85,8 +85,12 @@ sudo ufw allow 19132/udp
 
 ## 6. Post-SOP Verification
 
-- **Console Logs:** Run `docker logs -f minecraft-bedrock` to confirm the server has finished generating the world and is "Started."
+To confirm the server is reachable and secure, perform the following verification steps:
+
+- **Console Logs:** Run `docker logs -f minecraft-bedrock` or view the log stream in **Portainer** to confirm the server status is "Started".
     
-- **External Connection:** Have a friend on mobile or PC enter the custom DDNS hostname (e.g., `[YOUR-SUBDOMAIN].duckdns.org`) and port `19132` in the "Servers" tab.
+- **External Connection:** Open Minecraft on a mobile device or PC (not on your home Wi-Fi) and enter your custom domain: `angelserver.live` with port `19132`.
     
-- **Xbox/Console Connection:** Since consoles do not natively support custom IPs, the player must use a DNS workaround (like BedrockConnect) or a mobile app to make the server appear in their "Friends" tab.
+- **Cloudflare Note (Grey Cloud):** For Minecraft traffic, ensure you have a "DNS Only" (Grey Cloud) record set up if using a subdomain like `mc.angelserver.live`, as Cloudflare's standard proxy does not support UDP traffic.
+    
+- **Console Workaround:** Because Bedrock consoles (Xbox/PS5/Switch) do not natively allow custom IP entries, players must use a DNS redirect tool like **BedrockConnect** to see `angelserver.live` in their "Friends" tab.

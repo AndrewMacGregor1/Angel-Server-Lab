@@ -6,11 +6,12 @@ This procedure defines the steps for establishing a communication link between t
 
 The following values are used as the reference baseline for the **Angel Server** environment.
 
-|**Attribute**|**Lab Value (Example)**|**Context**|
-|---|---|---|
-|**Hypervisor Host**|Proxmox VE (`192.168.0.150`)|The physical OptiPlex hardware|
-|**Guest VM**|Ubuntu Server (`192.168.0.151`)|The virtualized "Angel Node"|
-|**Service Name**|`qemu-guest-agent`|The host-to-guest bridge|
+| **Attribute**       | **Lab Value (Example)**         | **Context**                    |
+| ------------------- | ------------------------------- | ------------------------------ |
+| **Hypervisor Host** | Proxmox VE (`192.168.0.150`)    | The physical OptiPlex hardware |
+| **Guest VM**        | Ubuntu Server (`192.168.0.151`) | The virtualized "Angel Node"   |
+| **Service Name**    | `qemu-guest-agent`              | The host-to-guest bridge       |
+|                     |                                 |                                |
 
 ## 3. Enabling the Guest Agent (Interface)
 
