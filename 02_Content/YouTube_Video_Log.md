@@ -17,7 +17,7 @@
 - **Status:** Published
 #### **Episode 2: The Container Engine**
 
-- **Release Date:** 2026-03-27
+- **Release Date:** 2026-03-06
     
 - **Goal:** Moving from a bare OS to a managed container environment.
     
