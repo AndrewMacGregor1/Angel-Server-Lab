@@ -7,12 +7,13 @@ This is a documentation-first home lab project centered around a Dell OptiPlex 9
 The following diagram represents the planned architecture of the Angel Server lab as the project progresses through the YouTube series.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#2ecc71', 'edgeLabelBackground':'#282c34', 'tertiaryColor': '#282c34'}}}%%
 graph TD
-    %% Custom Styles
-    classDef internet fill:#f96,stroke:#333,stroke-width:2px;
-    classDef cloud fill:#3498db,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef home fill:#2ecc71,stroke:#333,stroke-width:2px;
-    classDef node fill:#ecf0f1,stroke:#333,stroke-width:1px;
+    %% Custom Styles for GitHub Contrast
+    classDef internet fill:#e67e22,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef cloud fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef home fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef node fill:#2c3e50,stroke:#fff,stroke-width:1px,color:#fff;
 
     subgraph External ["External Access"]
         User((Remote Access)):::internet
@@ -34,10 +35,10 @@ graph TD
                 OS[angel-node-01<br>192.168.0.151]:::node
                 
                 subgraph Docker ["Docker Platform"]
-                    NPM[Nginx Proxy Manager<br>Reverse Proxy]
-                    Portainer[Portainer UI<br>:9443]
-                    MC[Minecraft Bedrock<br>UDP :19132]
-                    Future[Future: Plex / Sinkhole]
+                    NPM[Nginx Proxy Manager<br>Reverse Proxy]:::node
+                    Portainer[Portainer UI<br>:9443]:::node
+                    MC[Minecraft Bedrock<br>UDP :19132]:::node
+                    Future[Future: Plex / Sinkhole]:::node
                 end
             end
         end
@@ -51,7 +52,7 @@ graph TD
     Guest --> CF
     CF --> Router
     
-    %% Fixed Traffic Routing
+    %% Defined Traffic Routing
     Router -->|HTTPS :443| NPM
     Router -->|UDP :19132| MC
     
