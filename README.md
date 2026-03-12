@@ -8,46 +8,55 @@ The following diagram represents the planned architecture of the Angel Server la
 
 ```mermaid
 graph TD
+    %% Custom Styles
+    classDef internet fill:#f96,stroke:#333,stroke-width:2px;
+    classDef cloud fill:#3498db,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef home fill:#2ecc71,stroke:#333,stroke-width:2px;
+    classDef node fill:#ecf0f1,stroke:#333,stroke-width:1px;
 
-subgraph External_World [External Access]
-    RemoteDevice["Remote Device<br>(Work/Laptop)"]
-    Internet((Internet))
-end
+    subgraph External ["External Access"]
+        User((Remote Access)):::internet
+        Guest((Public Guest)):::internet
+    end
 
-subgraph Cloud_Services [Cloud Logic]
-    Cloudflare["Cloudflare DNS<br>(DDNS & SSL)"]
-    Tailscale["Tailscale Control Plane<br>(Mesh VPN)"]
-end
+    subgraph Cloud ["Cloud Logic"]
+        CF[Cloudflare DNS / DDNS]:::cloud
+        TS[Tailscale Mesh VPN]:::cloud
+    end
 
-subgraph Home_Network [Home Lab: Dell OptiPlex 9020]
-    Router["Cox Gateway (192.168.0.1)"]
-    
-    subgraph Hypervisor_Layer [Physical Host]
-        Proxmox["Proxmox Host<br>192.168.0.150<br>(Tailscale Active)"]
+    subgraph Lab ["Home Lab: Dell OptiPlex 9020"]
+        Router[Cox Gateway<br>192.168.0.1]:::home
         
-        subgraph Guest_OS [Virtual Node]
-            Ubuntu["Ubuntu Server VM<br>angel-node-01<br>192.168.0.151<br>(Tailscale Active)"]
+        subgraph Physical ["Physical Host (Proxmox)"]
+            PVE[Proxmox VE<br>192.168.0.150]:::node
             
-            subgraph Docker_Platform [Containers]
-                NPM["Nginx Proxy Manager<br>Reverse Proxy :80 :443"]
-                Portainer["Portainer UI :9443"]
-                Minecraft["Minecraft Bedrock :19132"]
-                Future["Future: Plex & DNS Sinkhole"]
+            subgraph Virtual ["Virtual Node (Ubuntu)"]
+                OS[angel-node-01<br>192.168.0.151]:::node
+                
+                subgraph Docker ["Docker Platform"]
+                    NPM[Nginx Proxy Manager<br>Reverse Proxy]
+                    Portainer[Portainer UI<br>:9443]
+                    MC[Minecraft Bedrock<br>UDP :19132]
+                    Future[Future: Plex / Sinkhole]
+                end
             end
         end
     end
-end
 
-%% Connections
-RemoteDevice -- "Encrypted Tunnel" --> Tailscale
-Tailscale -- "Bypass Firewall" --> Proxmox
-Tailscale -- "Bypass Firewall" --> Ubuntu
-
-Internet --> Cloudflare
-Cloudflare --> Router
-Router --> NPM
-NPM --> Portainer
-NPM --> Future
+    %% Traffic Flows
+    User --> TS
+    TS -.->|Secure Tunnel| PVE
+    TS -.->|Secure Tunnel| OS
+    
+    Guest --> CF
+    CF --> Router
+    
+    %% Fixed Traffic Routing
+    Router -->|HTTPS :443| NPM
+    Router -->|UDP :19132| MC
+    
+    NPM --> Portainer
+    NPM --> Future
 ```
 
 ## 3. Technical Stack
