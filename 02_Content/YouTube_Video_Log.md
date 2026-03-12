@@ -47,6 +47,17 @@
     - **[SOP-10: Minecraft Bedrock Edition](../01_Learning/SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** — Deploying a persistent game world for cross-platform play.
     
 - **Status:** Planned
+#### **Episode 4: The Secure Link**
+
+- **Goal**: Establishing secure remote management and hardening host access.
+    
+- **SOPs Covered**:
+    
+    - **[SOP-11: Secure Remote Access](../01_Learning/SOP-11_Secure_Remote_Access)**  — Establishing a Mesh VPN via Tailscale for off-site management.
+        
+    - **[SOP-12: SSH Key-Based Authentication](../01_Learning/SOP-12_SSH_Key-Based_Authentication)** — Transitioning to public-key cryptography and disabling password logins.
+        
+- **Status**: Planned.
 
 
 

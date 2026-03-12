@@ -6,10 +6,11 @@ This document provides a centralized reference for all port assignments within t
 
 The following values represent the active primary node for the lab environment.
 
-|**Attribute**|**Lab Value (Example)**|**Context**|
-|---|---|---|
-|**Node Name**|`angel-node-01`|Primary Docker Host|
-|**Internal IP**|`192.168.0.151`|Static Management IP|
+| **Attribute**   | **Lab Value (Example)** | **Context**          |
+| --------------- | ----------------------- | -------------------- |
+| **Node Name**   | `angel-node-01`         | Primary Docker Host  |
+| **Internal IP** | `192.168.0.151`         | Static Management IP |
+| Tailscale IP    | 100.y.y.y               | Private Mesh VPN IP  |
 
 ## 3. Assigned Service Ports
 

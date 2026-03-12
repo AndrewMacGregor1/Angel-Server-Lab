@@ -50,3 +50,20 @@ The following checks ensure continued external access after network interruption
 2. **Port Verification:** Periodically use an external probe to verify Port 443 and 25565 are responding.
     
 3. **SSL Renewal:** Confirm that NPM successfully renews certificates 30 days before expiration via the DNS challenge.
+___
+## 5. Mesh VPN Configuration (Tailnet)
+
+|**Device Name**|**Tailscale IP**|**Role**|**Status**|
+|---|---|---|---|
+|**proxmox-host**|`100.x.x.x`|Bare-Metal Management|**Active**|
+|**angel-node-01**|`100.y.y.y`|Ubuntu VM / Docker Host|**Active**|
+|**work-laptop**|`100.z.z.z`|Remote Admin Access|**Active**|
+
+---
+## 6. Management Access Hardening
+
+|**Service**|**Public Port**|**Protocol**|**Access Policy**|**Verification**|
+|---|---|---|---|---|
+|**SSH**|22|TCP|**Tailnet Only** / Key-Auth|Password Auth Disabled|
+|**NPM Admin**|81|TCP|**Tailnet Only**|IP Restricted / Mesh Only|
+|**Proxmox UI**|8006|TCP|**Tailnet Only**|

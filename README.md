@@ -9,19 +9,45 @@ The following diagram represents the planned architecture of the Angel Server la
 ```mermaid
 graph TD
 
+subgraph External_World [External Access]
+    RemoteDevice["Remote Device<br>(Work/Laptop)"]
+    Internet((Internet))
+end
+
+subgraph Cloud_Services [Cloud Logic]
+    Cloudflare["Cloudflare DNS<br>(DDNS & SSL)"]
+    Tailscale["Tailscale Control Plane<br>(Mesh VPN)"]
+end
+
+subgraph Home_Network [Home Lab: Dell OptiPlex 9020]
+    Router["Cox Gateway (192.168.0.1)"]
+    
+    subgraph Hypervisor_Layer [Physical Host]
+        Proxmox["Proxmox Host<br>192.168.0.150<br>(Tailscale Active)"]
+        
+        subgraph Guest_OS [Virtual Node]
+            Ubuntu["Ubuntu Server VM<br>angel-node-01<br>192.168.0.151<br>(Tailscale Active)"]
+            
+            subgraph Docker_Platform [Containers]
+                NPM["Nginx Proxy Manager<br>Reverse Proxy :80 :443"]
+                Portainer["Portainer UI :9443"]
+                Minecraft["Minecraft Bedrock :19132"]
+                Future["Future: Plex & DNS Sinkhole"]
+            end
+        end
+    end
+end
+
+%% Connections
+RemoteDevice -- "Encrypted Tunnel" --> Tailscale
+Tailscale -- "Bypass Firewall" --> Proxmox
+Tailscale -- "Bypass Firewall" --> Ubuntu
+
 Internet --> Cloudflare
-Cloudflare --> Router["Cox Gateway (192.168.0.1)"]
-
-Router --> Proxmox["Proxmox Host<br>192.168.0.150"]
-
-Proxmox --> Ubuntu["Ubuntu Server VM<br>angel-node-01<br>192.168.0.151"]
-
-Ubuntu --> Docker["Docker Engine"]
-
-Docker --> Portainer["Portainer<br>Management UI :9443"]
-Docker --> NPM["Nginx Proxy Manager<br>Reverse Proxy :80 :443"]
-Docker --> Minecraft["Minecraft Bedrock Server<br>UDP :19132"]
-Docker --> Future["Future Containers"]
+Cloudflare --> Router
+Router --> NPM
+NPM --> Portainer
+NPM --> Future
 ```
 
 ## 3. Technical Stack
@@ -57,6 +83,12 @@ The lab has completed its core infrastructure and containerization phases. The n
 - **[SOP-08:](./01_Learning/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** and **[SOP-09:](./01_Learning/SOP-09_Dynamic_DNS_(DDNS)_Configuration)** Implementation of Nginx Proxy Manager and Dynamic DNS for secure remote access.
     
 - **[SOP-10:](./01_Learning/SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** Deployment of a persistent Minecraft Bedrock Edition server.
+
+### Planned (Episode 04: The Secure Link)
+
+- **[SOP-11: Secure Remote Access](./01_Learning/SOP-11_Secure_Remote_Access)**: Implementation of a Tailscale Mesh VPN to bypass ISP port filtering and enable full remote management of the Proxmox host and Ubuntu node from external networks.
+    
+- **[SOP-12: SSH Key-Based Authentication](./01_Learning/SOP-12_SSH_Key-Based_Authentication)**: Transitioning from password-based logins to Ed25519 public-key cryptography and disabling password authentication to harden the server against brute-force attacks.
 
 ## Repository Structure
 
