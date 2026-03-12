@@ -17,8 +17,8 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-08: Reverse Proxy Deployment](./01_Learning/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** — Centralized traffic management and SSL.
 - **[SOP-09: Dynamic DNS Configuration](./01_Learning/SOP-09_Dynamic_DNS_(DDNS)_Configuration)** — Maintaining a persistent external FQDN.
 - **[SOP-10: Minecraft Bedrock Edition](./01_Learning/SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** — Deploying a persistent game world for cross-platform play.
-- **[SOP-11: Secure Remote Access](./01_Learning/SOP-11_Secure_Remote_Access)** — Establishing a Mesh VPN via Tailscale for off-site management.
-- **[SOP-12: SSH Key-Based Authentication](./01_Learning/SOP-12_SSH_Key-Based_Authentication)**— Transitioning to public-key cryptography and disabling password logins.
+- **[SOP-11: Secure Remote Access](./01_Learning/SOP-11_Secure_Remote_Access.md)** — Establishing a Mesh VPN via Tailscale for off-site management.
+- **[SOP-12: SSH Key-Based Authentication](./01_Learning/SOP-12_SSH_Key-Based_Authentication.md)**— Transitioning to public-key cryptography and disabling password logins.
 
 ## 3. Network Topology & Infrastructure
 

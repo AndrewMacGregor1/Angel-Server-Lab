@@ -86,9 +86,9 @@ The lab has completed its core infrastructure and containerization phases. The n
 
 ### Planned (Episode 04: The Secure Link)
 
-- **[SOP-11: Secure Remote Access](./01_Learning/SOP-11_Secure_Remote_Access)**: Implementation of a Tailscale Mesh VPN to bypass ISP port filtering and enable full remote management of the Proxmox host and Ubuntu node from external networks.
+- **[SOP-11:](./01_Learning/SOP-11_Secure_Remote_Access.md)**: Implementation of a Tailscale Mesh VPN to bypass ISP port filtering and enable full remote management of the Proxmox host and Ubuntu node from external networks.
     
-- **[SOP-12: SSH Key-Based Authentication](./01_Learning/SOP-12_SSH_Key-Based_Authentication)**: Transitioning from password-based logins to Ed25519 public-key cryptography and disabling password authentication to harden the server against brute-force attacks.
+- **[SOP-12:](./01_Learning/SOP-12_SSH_Key-Based_Authentication.md)**: Transitioning from password-based logins to Ed25519 public-key cryptography and disabling password authentication to harden the server against brute-force attacks.
 
 ## Repository Structure
 
