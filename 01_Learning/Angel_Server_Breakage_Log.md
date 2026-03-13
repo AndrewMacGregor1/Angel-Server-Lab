@@ -11,6 +11,8 @@ INC-002 – Docker user permission issue
 INC-003 – Router firmware blocking port forwarding configuration  
 INC-004 – ISP port 80 filtering preventing HTTP challenge  
 INC-005 – Cloudflare proxy blocking Minecraft server
+INC-006 – Tailnet "Unpaid" error due to organizational domain conflict
+INC-007 – Windows PowerShell missing native 'ssh-copy-id' utility
 ```
 
 ---
@@ -47,7 +49,13 @@ INC-005 – Cloudflare proxy blocking Minecraft server
 | **2026-03-10** | **INC-005 – Minecraft server unreachable despite container running** | **Cloudflare Proxy Conflict:** The root DNS record (`angelserver.live`) was set to **Proxied (orange cloud)**. Cloudflare only proxies HTTP/HTTPS traffic and does not support UDP game traffic such as Minecraft Bedrock (`19132/udp`). | **DNS Only Mode:** Disabled Cloudflare proxy for the `angelserver.live` A record by switching it to **DNS Only (grey cloud)**, allowing direct connections to the home server IP. | Game Server Deployment |
 
 ---
+## Phase 5 – Remote Access & Hardening (Episode 04)
 
+| **Date**       | **The "Break"**                                                     | **Root Cause**                                                                                                                                       | **The Fix**                                                                                                            | **Video Segment**   |
+| -------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| **2026-03-11** | **INC-006 – Tailscale "Your account is unpaid" / User limit error** | **Domain Conflict:** Using a VCCS student email caused Tailscale to attempt to join a shared organizational tailnet that had reached its seat limit. | **Personal Pivot:** Migrated to a personal email/GitHub account to establish a private "Personal" tailnet.             | Remote Access Phase |
+| 2026-03-11     | **INC-007 – `ssh-copy-id` missing on Windows**                      | **Utility Parity:** The standard Windows OpenSSH client does not include the `ssh-copy-id` script found in Linux/macOS.                              | **Manual Pipe:** Used a PowerShell one-liner to manually append the public key to the server's `authorized_keys` file. | Remote Access Phase |
+___
 # Lessons Learned
 
 The following observations were extracted from the incidents above and represent general operational lessons for future deployments.
@@ -78,3 +86,18 @@ The following observations were extracted from the incidents above and represent
 - **DNS-01 Advantage:** DNS-01 challenges allow SSL certificate issuance without exposing web ports, making them ideal for home lab environments.
 
 - **Cloudflare Proxy Limitations:** Cloudflare only proxies HTTP/HTTPS traffic. Services relying on UDP or non-web protocols (such as Minecraft servers) must use **DNS-only mode** for direct client connections.
+___
+
+### **Remote Access & Identity Lessons**
+
+- **SaaS Domain Multi-Tenancy**: Many SaaS platforms (like Tailscale) use the email domain (e.g., `@email.vccs.edu`) to automatically group users into "Organizations."
+
+- **Personal vs. Institutional Accounts**: For home lab infrastructure, personal identity providers (GitHub, personal Gmail) are preferred over institutional accounts to avoid seat-limit conflicts and ensure long-term administrative control.
+
+- **Force Re-authentication**: When switching between Tailscale accounts on a Linux host, use the `--force-reauth` flag to ensure the node's key is correctly associated with the new tailnet.
+
+-  **Utility Parity across OS:** Do not assume standard Linux/macOS scripts (like `ssh-copy-id`) exist on Windows PowerShell; always verify your toolchain on all admin devices.
+
+- **Manual Identity Deployment:** In the absence of automated scripts, a PowerShell pipe (`type | ssh`) is a reliable way to deploy public keys while maintaining strict file permissions (`chmod 600`) on the host.
+
+- **Redundant Access Points:** Always verify that at least two independent devices (e.g., MacBook via Tailscale and Main PC via LAN) have working SSH keys before disabling password authentication to prevent a permanent lockout.
