@@ -6,13 +6,13 @@
     
 - **SOPs Covered:**
     
-    - **[SOP-01: Proxmox Installation](../01_Learning/SOP-01_Proxmox_Installation.md)**  — Hardware prep and bare-metal hypervisor install.
+    - **[SOP-01: Proxmox Installation](SOP-01_Proxmox_Installation.md)**  — Hardware prep and bare-metal hypervisor install.
         
-    - **[SOP-02: ISO Management](../01_Learning/SOP-02_ISO_Management.md)** — Network transfer of OS images to the server.
+    - **[SOP-02: ISO Management](SOP-02_ISO_Management.md)** — Network transfer of OS images to the server.
         
-    - **[SOP-03: VM Shell Creation](../01_Learning/SOP-03_VM_Shell_Creation.md)** — Resource allocation and virtual hardware configuration.
+    - **[SOP-03: VM Shell Creation](SOP-03_VM_Shell_Creation.md)** — Resource allocation and virtual hardware configuration.
         
-    - **[SOP-04: Ubuntu Provisioning](../01_Learning/SOP-04_Ubuntu_Server_Provisioning.md)** — Finalizing the primary node and base hardening.
+    - **[SOP-04: Ubuntu Provisioning](SOP-04_Ubuntu_Server_Provisioning.md)** — Finalizing the primary node and base hardening.
         
 - **Status:** Published
 #### **Episode 2: The Container Engine**
@@ -23,11 +23,11 @@
     
 - **SOPs Covered:**
     
-    - **[SOP-05: Guest Services & Data Integrity](../01_Learning/SOP-05_Guest_Services_&_Data_Integrity.md)** — QEMU Agent setup and Proxmox snapshotting.
+    - **[SOP-05: Guest Services & Data Integrity](SOP-05_Guest_Services_&_Data_Integrity.md)** — QEMU Agent setup and Proxmox snapshotting.
         
-    - **[SOP-06: System Hardening & Directory Structure](../01_Learning/SOP-06_System_Hardening_&_Directory_Structure.md)** — UFW firewall and /opt/docker organization.
+    - **[SOP-06: System Hardening & Directory Structure](SOP-06_System_Hardening_&_Directory_Structure.md)** — UFW firewall and /opt/docker organization.
         
-    - **[SOP-07: Containerization](../01_Learning/SOP-07_Containerization_(Docker_&_Portainer).md)** — Deploying Docker Engine and Portainer UI.
+    - **[SOP-07: Containerization](SOP-07_Containerization_(Docker_&_Portainer).md)** — Deploying Docker Engine and Portainer UI.
     
 - **Status:** Published
 
@@ -40,11 +40,11 @@
     
 - **SOPs Covered:**
     
-    - **[SOP-08: Reverse Proxy Deployment](../01_Learning/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** — Centralized traffic management and SSL.
+    - **[SOP-08: Reverse Proxy Deployment](SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** — Centralized traffic management and SSL.
         
-    - **[SOP-09: Dynamic DNS Configuration](../01_Learning/SOP-09_Dynamic_DNS_(DDNS)_Configuration)** — Maintaining a persistent external FQDN.
+    - **[SOP-09: Dynamic DNS Configuration](SOP-09_Dynamic_DNS_(DDNS)_Configuration.md)** — Maintaining a persistent external FQDN.
         
-    - **[SOP-10: Minecraft Bedrock Edition](../01_Learning/SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** — Deploying a persistent game world for cross-platform play.
+    - **[SOP-10: Minecraft Bedrock Edition](SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** — Deploying a persistent game world for cross-platform play.
     
 - **Status:** Planned
 #### **Episode 4: The Secure Link**
@@ -53,9 +53,9 @@
     
 - **SOPs Covered**:
     
-    - **[SOP-11: Secure Remote Access](../01_Learning/SOP-11_Secure_Remote_Access)**  — Establishing a Mesh VPN via Tailscale for off-site management.
+    - **[SOP-11: Secure Remote Access](SOP-11_Secure_Remote_Access.md)**  — Establishing a Mesh VPN via Tailscale for off-site management.
         
-    - **[SOP-12: SSH Key-Based Authentication](../01_Learning/SOP-12_SSH_Key-Based_Authentication)** — Transitioning to public-key cryptography and disabling password logins.
+    - **[SOP-12: SSH Key-Based Authentication](SOP-12_SSH_Key-Based_Authentication.md)** — Transitioning to public-key cryptography and disabling password logins.
         
 - **Status**: Planned.
 
