@@ -93,11 +93,10 @@ The lab has completed its core infrastructure and containerization phases. The n
 - **[SOP-08:](SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** and **[SOP-09:](SOP-09_Dynamic_DNS_(DDNS)_Configuration.md)** Implementation of Nginx Proxy Manager and Dynamic DNS for secure remote access.
     
 - **[SOP-10:](SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** Deployment of a persistent Minecraft Bedrock Edition server.
-
+	
+- **[SOP-11:](SOP-11_Secure_Remote_Access.md)** Implementation of a Tailscale Mesh VPN to bypass ISP port filtering and enable full remote management of the Proxmox host and Ubuntu node from external networks.
 ### Planned (Episode 04: The Secure Link)
 
-- **[SOP-11:](SOP-11_Secure_Remote_Access.md)** Implementation of a Tailscale Mesh VPN to bypass ISP port filtering and enable full remote management of the Proxmox host and Ubuntu node from external networks.
-    
 - **[SOP-12:](SOP-12_SSH_Key-Based_Authentication.md)** Transitioning from password-based logins to Ed25519 public-key cryptography and disabling password authentication to harden the server against brute-force attacks.
 
 ## Repository Structure
