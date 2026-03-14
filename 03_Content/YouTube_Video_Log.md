@@ -30,10 +30,6 @@
     - **[SOP-07: Containerization](SOP-07_Containerization_(Docker_&_Portainer).md)** — Deploying Docker Engine and Portainer UI.
     
 - **Status:** Published
-
----
-## **2. Production Pipeline**
-
 #### **Episode 3: Opening the Gates**
 
 - **Goal:** Connecting the local lab to the outside world securely.
@@ -45,16 +41,20 @@
     - **[SOP-09: Dynamic DNS Configuration](SOP-09_Dynamic_DNS_(DDNS)_Configuration.md)** — Maintaining a persistent external FQDN.
         
     - **[SOP-10: Minecraft Bedrock Edition](SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** — Deploying a persistent game world for cross-platform play.
+        
+    - **[SOP-11: Secure Remote Access](SOP-11_Secure_Remote_Access.md)** — Establishing a Mesh VPN via Tailscale for off-site management.
     
-- **Status:** Planned
+    
+- **Status:** Published
+---
+## **2. Production Pipeline**
+
 #### **Episode 4: The Secure Link**
 
-- **Goal**: Establishing secure remote management and hardening host access.
+- **Goal**: Hardening host access.
     
 - **SOPs Covered**:
-    
-    - **[SOP-11: Secure Remote Access](SOP-11_Secure_Remote_Access.md)**  — Establishing a Mesh VPN via Tailscale for off-site management.
-        
+      
     - **[SOP-12: SSH Key-Based Authentication](SOP-12_SSH_Key-Based_Authentication.md)** — Transitioning to public-key cryptography and disabling password logins.
         
 - **Status**: Planned.

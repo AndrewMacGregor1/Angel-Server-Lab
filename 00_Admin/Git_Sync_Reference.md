@@ -1,5 +1,4 @@
 This log covers the configuration and commands for syncing the vault between the Angel Server and GitHub.
-**This is a test line for my YouTube video.**
 ### Server Info
 
 - **Hostname:** angel-node-01 (Tailscale)

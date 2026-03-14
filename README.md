@@ -88,7 +88,7 @@ The lab has completed its core infrastructure and containerization phases. The n
     
 - **[SOP-07:](SOP-07_Containerization_(Docker_&_Portainer).md)**  Deployment of the Docker Engine and Portainer management interface.
 
-### Planned (Episode 03: Opening the Gates)
+### Completed (Episode 03: Opening the Gates)
 
 - **[SOP-08:](SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** and **[SOP-09:](SOP-09_Dynamic_DNS_(DDNS)_Configuration.md)** Implementation of Nginx Proxy Manager and Dynamic DNS for secure remote access.
     
