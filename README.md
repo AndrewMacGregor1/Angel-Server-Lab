@@ -95,9 +95,22 @@ The lab has completed its core infrastructure and containerization phases. The n
 - **[SOP-10:](SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** Deployment of a persistent Minecraft Bedrock Edition server.
 	
 - **[SOP-11:](SOP-11_Secure_Remote_Access.md)** Implementation of a Tailscale Mesh VPN to bypass ISP port filtering and enable full remote management of the Proxmox host and Ubuntu node from external networks.
+
 ### Planned (Episode 04: The Secure Link)
 
-- **[SOP-12:](SOP-12_SSH_Key-Based_Authentication.md)** Transitioning from password-based logins to Ed25519 public-key cryptography and disabling password authentication to harden the server against brute-force attacks.
+- **[SOP-12:](SOP-12_SSH_Key-Based_Authentication.md)** Break Glass** Transitioning from password-based logins to Ed25519 public-key cryptography and disabling password authentication to harden the server against brute-force attacks.
+	
+- **Git Version Control**: Implementation of Git for local and remote versioning of all `/opt/docker` configurations and SOP documentation.
+	
+- **[SOP-12.1](SOP-12.1_Break_Glass) Key Redundancy**: Establishing "Break Glass" recovery procedures and secure key backup strategies.
+
+### Planned (Episode 05: The Personal Cloud)
+
+- **[SOP-13](SOP-13_Physical_Storage_Expansion) Physical Storage Expansion**: Mounting the internal 500GB HDD to `/mnt/data` within the Ubuntu VM to separate OS and user data.
+	
+- **[SOP-14](SOP-14_Immich_Photo_Engine_Deployment) Immich Photo Engine**: Deployment of a self-hosted, high-performance photo and video management stack as a hybrid alternative to iCloud.
+	
+- **[SOP-15](SOP-15_Automated_Offsite_Data_Redundancy) 3-2-1 Data Integrity**: Implementing automated, encrypted offsite backups for critical local storage.
 
 ## Repository Structure
 

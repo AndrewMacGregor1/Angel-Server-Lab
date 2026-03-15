@@ -15,6 +15,7 @@
     - **[SOP-04: Ubuntu Provisioning](SOP-04_Ubuntu_Server_Provisioning.md)** — Finalizing the primary node and base hardening.
         
 - **Status:** Published
+
 #### **Episode 2: The Container Engine**
 
 - **Release Date:** 2026-03-06
@@ -30,6 +31,7 @@
     - **[SOP-07: Containerization](SOP-07_Containerization_(Docker_&_Portainer).md)** — Deploying Docker Engine and Portainer UI.
     
 - **Status:** Published
+
 #### **Episode 3: Opening the Gates**
 
 - **Goal:** Connecting the local lab to the outside world securely.
@@ -44,8 +46,8 @@
         
     - **[SOP-11: Secure Remote Access](SOP-11_Secure_Remote_Access.md)** — Establishing a Mesh VPN via Tailscale for off-site management.
     
-    
 - **Status:** Published
+
 ---
 ## **2. Production Pipeline**
 
@@ -56,10 +58,26 @@
 - **SOPs Covered**:
       
     - **[SOP-12: SSH Key-Based Authentication](SOP-12_SSH_Key-Based_Authentication.md)** — Transitioning to public-key cryptography and disabling password logins.
-        
+	    
+    - **[SOP-12.1: SSH Key Backups](SOP-12.1_Break_Glass)**  — Establishing "Break Glass" procedures and secure off-site key backups (Not for video).
+	    
+    - **Git Implementation** — Setting up local and remote Git repositories for tracking `/opt/docker` and documentation changes.
+    
 - **Status**: Planned.
 
+#### **Episode 5: The Personal Cloud**
 
+- **Goal**: Utilizing secondary hardware for private data storage and redundancy.
+    
+- **SOPs Covered**:
+    
+    - **[SOP-13: Physical Storage Expansion](SOP-13_Physical_Storage_Expansion)** — Initializing and mounting the internal 500GB HDD to `/mnt/data`.
+        
+    - **[SOP-14: Immich Photo Engine Deployment](SOP-14_Immich_Photo_Engine_Deployment )**  — Deploying a self-hosted photo/video cloud using the new HDD mount.
+        
+    - **[SOP-15: Automated Offsite Redundancy](SOP-15_Automated_Offsite_Data_Redundancy)** — Configuring Rclone for encrypted, automated 3-2-1 backups.
+        
+- **Status**: Planned.
 
 
 

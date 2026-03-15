@@ -18,7 +18,11 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-09: Dynamic DNS Configuration](SOP-09_Dynamic_DNS_(DDNS)_Configuration.md)** — Maintaining a persistent external FQDN.
 - **[SOP-10: Minecraft Bedrock Edition](SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** — Deploying a persistent game world for cross-platform play.
 - **[SOP-11: Secure Remote Access](SOP-11_Secure_Remote_Access.md)** — Establishing a Mesh VPN via Tailscale for off-site management.
-- **[SOP-12: SSH Key-Based Authentication](SOP-12_SSH_Key-Based_Authentication.md)**— Transitioning to public-key cryptography and disabling password logins.
+- **[SOP-12: SSH Key-Based Authentication](SOP-12_SSH_Key-Based_Authentication.md)** — Transitioning to public-key cryptography and disabling password logins.
+- **[SOP-12.1: SSH Key Backups](SOP-12.1_Break_Glass)** — Establishing "Break Glass" procedures and secure off-site key backups (Not for video).
+- **[SOP-13: Physical Storage Expansion](SOP-13_Physical_Storage_Expansion)** — - Initializing and mounting the internal 500GB HDD to `/mnt/data`.
+- **[SOP-14: Immich Photo Engine Deployment](SOP-14_Immich_Photo_Engine_Deployment )** — Deploying a self-hosted photo/video cloud using the new HDD mount.
+- **[SOP-15: Automated Offsite Redundancy](SOP-15_Automated_Offsite_Data_Redundancy)** — Configuring Rclone for encrypted, automated 3-2-1 backups.
 
 ## 3. Network Topology & Infrastructure
 

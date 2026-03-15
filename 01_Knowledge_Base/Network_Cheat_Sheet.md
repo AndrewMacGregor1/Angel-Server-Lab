@@ -44,8 +44,8 @@ Mapping the physical hardware to the virtual environment.
 
 The following table tracks the private mesh network addresses used for remote administration and bypassing ISP port restrictions.
 
-|**Device Name**|**Tailscale IP**|**Primary Role**|**Access Policy**|
-|---|---|---|---|
-|**proxmox-host**|`100.x.x.x`|Bare-Metal Management|Internal/Mesh Only|
-|**angel-node-01**|`100.y.y.y`|Primary Ubuntu VM|Internal/Mesh Only|
-|**work-laptop**|`100.z.z.z`|Remote Management Device|Authorized Key-holder|
+| **Device Name**   | **Tailscale IP** | **Primary Role**         | **Access Policy**     |
+| ----------------- | ---------------- | ------------------------ | --------------------- |
+| **proxmox-host**  | `100.x.x.x`      | Bare-Metal Management    | Internal/Mesh Only    |
+| **angel-node-01** | `100.y.y.y`      | Primary Ubuntu VM        | Internal/Mesh Only    |
+| **work-laptop**   | `100.z.z.z`      | Remote Management Device | Authorized Key-holder |
