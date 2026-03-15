@@ -102,7 +102,7 @@ The lab has completed its core infrastructure and containerization phases. The n
 	
 - **Git Version Control**: Implementation of Git for local and remote versioning of all `/opt/docker` configurations and SOP documentation.
 	
-- **[SOP-12.1:](02_SOPs/SOP-12.1_Break_Glass) Key Redundancy**: Establishing "Break Glass" recovery procedures and secure key backup strategies.
+- **[SOP-12.1:](02_SOPs/SOP-12.1_Break_Glass.md) Key Redundancy**: Establishing "Break Glass" recovery procedures and secure key backup strategies.
 
 ### Planned (Episode 05: The Personal Cloud)
 
