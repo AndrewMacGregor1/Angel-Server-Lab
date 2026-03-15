@@ -98,7 +98,7 @@ The lab has completed its core infrastructure and containerization phases. The n
 
 ### Planned (Episode 04: The Secure Link)
 
-- **[SOP-12:](02_SOPs/SOP-12_SSH_Key-Based_Authentication.md)** Break Glass** Transitioning from password-based logins to Ed25519 public-key cryptography and disabling password authentication to harden the server against brute-force attacks.
+- **[SOP-12:](02_SOPs/SOP-12_SSH_Key-Based_Authentication.md) Break Glass** Transitioning from password-based logins to Ed25519 public-key cryptography and disabling password authentication to harden the server against brute-force attacks.
 	
 - **Git Version Control**: Implementation of Git for local and remote versioning of all `/opt/docker` configurations and SOP documentation.
 	
@@ -106,14 +106,14 @@ The lab has completed its core infrastructure and containerization phases. The n
 
 ### Planned (Episode 05: The Personal Cloud)
 
-- **[SOP-13:](02_SOPs/SOP-13_Physical_Storage_Expansion) Physical Storage Expansion**: Mounting the internal 500GB HDD to `/mnt/data` within the Ubuntu VM to separate OS and user data.
+- **[SOP-13:](02_SOPs/SOP-13_Physical_Storage_Expansion.md) Physical Storage Expansion**: Mounting the internal 500GB HDD to `/mnt/data` within the Ubuntu VM to separate OS and user data.
 	
-- **[SOP-14:](02_SOPs/SOP-14_Immich_Photo_Engine_Deployment) Immich Photo Engine**: Deployment of a self-hosted, high-performance photo and video management stack as a hybrid alternative to iCloud.
+- **[SOP-14:](02_SOPs/SOP-14_Immich_Photo_Engine_Deployment.md) Immich Photo Engine**: Deployment of a self-hosted, high-performance photo and video management stack as a hybrid alternative to iCloud.
 	
-- **[SOP-15:](02_SOPs/SOP-15_Automated_Offsite_Data_Redundancy) 3-2-1 Data Integrity**: Implementing automated, encrypted offsite backups for critical local storage.
+- **[SOP-15:](02_SOPs/SOP-15_Automated_Offsite_Data_Redundancy.md) 3-2-1 Data Integrity**: Implementing automated, encrypted offsite backups for critical local storage.
 
 ## Repository Structure
 
-- **[01_Knowledge_Base:](01_Knowledge_Base/Angel_Server_Breakage_Log)** Technical SOPs, Physical Topology Logs, and the Service Port Map.
+- **[01_Knowledge_Base:](01_Knowledge_Base/Angel_Server_Breakage_Log.md)** Technical SOPs, Physical Topology Logs, and the Service Port Map.
     
 - **[Angel Server MOC:](./Angel_Server_MOC.md)** The Map of Content for quick navigation across the entire project.
