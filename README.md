@@ -76,44 +76,44 @@ The lab has completed its core infrastructure and containerization phases. The n
 
 ### Completed (Episode 01: The Foundation)
 
-- **[SOP-01](02_SOPs/SOP-01_Proxmox_Installation.md) to [SOP-04](SOP-04_Ubuntu_Server_Provisioning.md)**: Successful bare-metal installation and provisioning of a hardened, headless Ubuntu VM.
+- **[SOP-01](02_SOPs/SOP-01_Proxmox_Installation.md) to [SOP-04](02_SOPs/SOP-04_Ubuntu_Server_Provisioning.md)**: Successful bare-metal installation and provisioning of a hardened, headless Ubuntu VM.
     
--  **[Breakage Log](Angel_Server_Breakage_Log.md)**: Resolved the ISO Lock boot error encountered during initial provisioning.
+-  **[Breakage Log](01_Knowledge_Base/Angel_Server_Breakage_Log.md)**: Resolved the ISO Lock boot error encountered during initial provisioning.
 
 ### Completed (Episode 02: The Container Engine)
 
-- **[SOP-05:](SOP-05_Guest_Services_&_Data_Integrity.md)**  Guest Agent integration and Proxmox snapshot baseline established.
+- **[SOP-05:](02_SOPs/SOP-05_Guest_Services_&_Data_Integrity.md)**  Guest Agent integration and Proxmox snapshot baseline established.
     
-- **[SOP-06:](SOP-06_System_Hardening_&_Directory_Structure.md)** Standardized directory structure at /opt/docker and UFW hardening.
+- **[SOP-06:](02_SOPs/SOP-06_System_Hardening_&_Directory_Structure.md)** Standardized directory structure at /opt/docker and UFW hardening.
     
-- **[SOP-07:](SOP-07_Containerization_(Docker_&_Portainer).md)**  Deployment of the Docker Engine and Portainer management interface.
+- **[SOP-07:](02_SOPs/SOP-07_Containerization_(Docker_&_Portainer).md)**  Deployment of the Docker Engine and Portainer management interface.
 
 ### Completed (Episode 03: Opening the Gates)
 
-- **[SOP-08:](SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** and **[SOP-09:](SOP-09_Dynamic_DNS_(DDNS)_Configuration.md)** Implementation of Nginx Proxy Manager and Dynamic DNS for secure remote access.
+- **[SOP-08:](02_SOPs/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** and **[SOP-09:](02_SOPs/SOP-09_Dynamic_DNS_(DDNS)_Configuration.md)** Implementation of Nginx Proxy Manager and Dynamic DNS for secure remote access.
     
-- **[SOP-10:](SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** Deployment of a persistent Minecraft Bedrock Edition server.
+- **[SOP-10:](02_SOPs/SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** Deployment of a persistent Minecraft Bedrock Edition server.
 	
-- **[SOP-11:](SOP-11_Secure_Remote_Access.md)** Implementation of a Tailscale Mesh VPN to bypass ISP port filtering and enable full remote management of the Proxmox host and Ubuntu node from external networks.
+- **[SOP-11:](02_SOPs/SOP-11_Secure_Remote_Access.md)** Implementation of a Tailscale Mesh VPN to bypass ISP port filtering and enable full remote management of the Proxmox host and Ubuntu node from external networks.
 
 ### Planned (Episode 04: The Secure Link)
 
-- **[SOP-12:](SOP-12_SSH_Key-Based_Authentication.md)** Break Glass** Transitioning from password-based logins to Ed25519 public-key cryptography and disabling password authentication to harden the server against brute-force attacks.
+- **[SOP-12:](02_SOPs/SOP-12_SSH_Key-Based_Authentication.md)** Break Glass** Transitioning from password-based logins to Ed25519 public-key cryptography and disabling password authentication to harden the server against brute-force attacks.
 	
 - **Git Version Control**: Implementation of Git for local and remote versioning of all `/opt/docker` configurations and SOP documentation.
 	
-- **[SOP-12.1:](SOP-12.1_Break_Glass) Key Redundancy**: Establishing "Break Glass" recovery procedures and secure key backup strategies.
+- **[SOP-12.1:](02_SOPs/SOP-12.1_Break_Glass) Key Redundancy**: Establishing "Break Glass" recovery procedures and secure key backup strategies.
 
 ### Planned (Episode 05: The Personal Cloud)
 
-- **[SOP-13:](SOP-13_Physical_Storage_Expansion) Physical Storage Expansion**: Mounting the internal 500GB HDD to `/mnt/data` within the Ubuntu VM to separate OS and user data.
+- **[SOP-13:](02_SOPs/SOP-13_Physical_Storage_Expansion) Physical Storage Expansion**: Mounting the internal 500GB HDD to `/mnt/data` within the Ubuntu VM to separate OS and user data.
 	
-- **[SOP-14:](SOP-14_Immich_Photo_Engine_Deployment) Immich Photo Engine**: Deployment of a self-hosted, high-performance photo and video management stack as a hybrid alternative to iCloud.
+- **[SOP-14:](02_SOPs/SOP-14_Immich_Photo_Engine_Deployment) Immich Photo Engine**: Deployment of a self-hosted, high-performance photo and video management stack as a hybrid alternative to iCloud.
 	
-- **[SOP-15:](SOP-15_Automated_Offsite_Data_Redundancy) 3-2-1 Data Integrity**: Implementing automated, encrypted offsite backups for critical local storage.
+- **[SOP-15:](02_SOPs/SOP-15_Automated_Offsite_Data_Redundancy) 3-2-1 Data Integrity**: Implementing automated, encrypted offsite backups for critical local storage.
 
 ## Repository Structure
 
-- **[01_Learning:](SOP-01_Proxmox_Installation.md)** Technical SOPs, Physical Topology Logs, and the Service Port Map.
+- **[01_Knowledge_Base:](01_Knowledge_Base/Angel_Server_Breakage_Log)** Technical SOPs, Physical Topology Logs, and the Service Port Map.
     
 - **[Angel Server MOC:](./Angel_Server_MOC.md)** The Map of Content for quick navigation across the entire project.
