@@ -76,7 +76,7 @@ The lab has completed its core infrastructure and containerization phases. The n
 
 ### Completed (Episode 01: The Foundation)
 
-- **[SOP-01](SOP-01_Proxmox_Installation.md) to [SOP-04](SOP-04_Ubuntu_Server_Provisioning.md)**: Successful bare-metal installation and provisioning of a hardened, headless Ubuntu VM.
+- **[SOP-01](02_SOPs/SOP-01_Proxmox_Installation.md) to [SOP-04](SOP-04_Ubuntu_Server_Provisioning.md)**: Successful bare-metal installation and provisioning of a hardened, headless Ubuntu VM.
     
 -  **[Breakage Log](Angel_Server_Breakage_Log.md)**: Resolved the ISO Lock boot error encountered during initial provisioning.
 
