@@ -13,7 +13,7 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-04: Ubuntu Provisioning](02_SOPs/SOP-04_Ubuntu_Server_Provisioning.md)** — Finalizing the primary node and base hardening.
 - **[SOP-05: Guest Services & Data Integrity](02_SOPs/SOP-05_Guest_Services_&_Data_Integrity.md)** — QEMU Agent setup and Proxmox snapshotting.
 - **[SOP-06: System Hardening & Directory Structure](02_SOPs/SOP-06_System_Hardening_&_Directory_Structure.md)** — UFW firewall and /opt/docker organization.
-- **[SOP-07: Containerization](SOP-07_Containerization_(02_SOPs/Docker_&_Portainer).md)** — Deploying Docker Engine and Portainer UI.
+- **[SOP-07: Containerization](02_SOPs/SOP-07_Containerization_(Docker_&_Portainer).md)** — Deploying Docker Engine and Portainer UI.
 - **[SOP-08: Reverse Proxy Deployment](02_SOPs/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** — Centralized traffic management and SSL.
 - **[SOP-09: Dynamic DNS Configuration](02_SOPs/SOP-09_Dynamic_DNS_(DDNS)_Configuration.md)** — Maintaining a persistent external FQDN.
 - **[SOP-10: Minecraft Bedrock Edition](02_SOPs/SOP-10_Minecraft_Bedrock_Edition_Deployment.md)** — Deploying a persistent game world for cross-platform play.
