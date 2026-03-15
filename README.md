@@ -102,15 +102,15 @@ The lab has completed its core infrastructure and containerization phases. The n
 	
 - **Git Version Control**: Implementation of Git for local and remote versioning of all `/opt/docker` configurations and SOP documentation.
 	
-- **[SOP-12.1](SOP-12.1_Break_Glass) Key Redundancy**: Establishing "Break Glass" recovery procedures and secure key backup strategies.
+- **[SOP-12.1:](SOP-12.1_Break_Glass) Key Redundancy**: Establishing "Break Glass" recovery procedures and secure key backup strategies.
 
 ### Planned (Episode 05: The Personal Cloud)
 
-- **[SOP-13](SOP-13_Physical_Storage_Expansion) Physical Storage Expansion**: Mounting the internal 500GB HDD to `/mnt/data` within the Ubuntu VM to separate OS and user data.
+- **[SOP-13:](SOP-13_Physical_Storage_Expansion) Physical Storage Expansion**: Mounting the internal 500GB HDD to `/mnt/data` within the Ubuntu VM to separate OS and user data.
 	
-- **[SOP-14](SOP-14_Immich_Photo_Engine_Deployment) Immich Photo Engine**: Deployment of a self-hosted, high-performance photo and video management stack as a hybrid alternative to iCloud.
+- **[SOP-14:](SOP-14_Immich_Photo_Engine_Deployment) Immich Photo Engine**: Deployment of a self-hosted, high-performance photo and video management stack as a hybrid alternative to iCloud.
 	
-- **[SOP-15](SOP-15_Automated_Offsite_Data_Redundancy) 3-2-1 Data Integrity**: Implementing automated, encrypted offsite backups for critical local storage.
+- **[SOP-15:](SOP-15_Automated_Offsite_Data_Redundancy) 3-2-1 Data Integrity**: Implementing automated, encrypted offsite backups for critical local storage.
 
 ## Repository Structure
 
