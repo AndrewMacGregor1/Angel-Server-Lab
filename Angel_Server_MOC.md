@@ -23,6 +23,7 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-13: Physical Storage Expansion](02_SOPs/SOP-13_Physical_Storage_Expansion.md)** — - Initializing and mounting the internal 500GB HDD to `/mnt/data`.
 - **[SOP-14: Immich Photo Engine Deployment](02_SOPs/SOP-14_Immich_Photo_Engine_Deployment.md )** — Deploying a self-hosted photo/video cloud using the new HDD mount.
 - **[SOP-15: Automated Offsite Redundancy](02_SOPs/SOP-15_Automated_Offsite_Data_Redundancy.md)** — Configuring Rclone for encrypted, automated 3-2-1 backups.
+- **[SOP-16: Automated OS & Configuration Redundancy](02_SOPs/SOP-16_Automated_OS_&_Configuration_Redundancy.md)** — Configuring Rclone for backups of OS.
 
 ## 3. Network Topology & Infrastructure
 

@@ -13,10 +13,12 @@ INC-004 – ISP port 80 filtering preventing HTTP challenge
 INC-005 – Cloudflare proxy blocking Minecraft server
 INC-006 – Tailnet "Unpaid" error due to organizational domain conflict
 INC-007 – Windows PowerShell missing native 'ssh-copy-id' utility
+INC-008 – Rclone command "not recognized" in PowerShell
+INC-009 – Windows terminal closed during Rclone authorization
+
 ```
 
 ---
-
 ## Phase 1 – Infrastructure (Provisioning)
 
 | **Date**       | **The "Break"**                                                         | **Root Cause**                                                                   | **The Fix**                                                                                       | **Video Segment**  |
@@ -24,7 +26,6 @@ INC-007 – Windows PowerShell missing native 'ssh-copy-id' utility
 | **2026-02-15** | **INC-001 – Ubuntu VM "Failed unmounting cdrom.mount" on first reboot** | **ISO Lock:** The virtual CD/DVD drive was still holding the installation media. | **Post-Install Cleanup:** In Proxmox, set the VM Hardware CD/DVD drive to "Do not use any media." | Provisioning Phase |
 
 ---
-
 ## Phase 2 – Containerization (Docker & Portainer)
 
 | **Date** | **The "Break"** | **Root Cause** | **The Fix** | **Video Segment** |
@@ -41,7 +42,6 @@ INC-007 – Windows PowerShell missing native 'ssh-copy-id' utility
 | **2026-03-01** | **INC-004 – Port 80 "Closed" despite active port forward** | **ISP Filtering:** Cox residential gateways often block Port 80, preventing standard Let's Encrypt HTTP-01 challenges. | **DNS-01 Challenge:** Migrated DNS management to Cloudflare and used an API token to verify domain ownership via DNS records instead of web traffic. | Edge Networking Phase |
 
 ---
-
 ## Phase 4 – Service Deployment (Minecraft Server)
 
 | **Date** | **The "Break"** | **Root Cause** | **The Fix** | **Video Segment** |
@@ -55,26 +55,32 @@ INC-007 – Windows PowerShell missing native 'ssh-copy-id' utility
 | -------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------- |
 | **2026-03-11** | **INC-006 – Tailscale "Your account is unpaid" / User limit error** | **Domain Conflict:** Using a VCCS student email caused Tailscale to attempt to join a shared organizational tailnet that had reached its seat limit. | **Personal Pivot:** Migrated to a personal email/GitHub account to establish a private "Personal" tailnet.             | Remote Access Phase |
 | 2026-03-11     | **INC-007 – `ssh-copy-id` missing on Windows**                      | **Utility Parity:** The standard Windows OpenSSH client does not include the `ssh-copy-id` script found in Linux/macOS.                              | **Manual Pipe:** Used a PowerShell one-liner to manually append the public key to the server's `authorized_keys` file. | Remote Access Phase |
+|                |                                                                     |                                                                                                                                                      |                                                                                                                        |                     |
+___
+## Phase 6 – Disaster Recovery & Automation (SOP-15/16)
+
+| **Date**       | **The "Break"**                                                   | **Root Cause**                                                                                                                                                              | **The Fix**                                                                                                                          | **Video Segment** |
+| -------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| **2026-03-22** | **INC-008 – Rclone command "not recognized" in PowerShell**       | **Nested Folder Structure:** The Rclone zip extracts into a folder containing _another_ folder of the same name. The `.exe` was one level deeper than the active directory. | **Directory Navigation:** Used `cd` to enter the inner versioned folder before running the `./rclone` command.                       | Disaster Recovery |
+| **2026-03-22** | **INC-009 – Windows terminal closed during Rclone authorization** | **OS Resource Spike/Crash:** The browser "Success" redirect triggered a desktop environment refresh or minor crash on the Windows host, closing active SSH sessions.        | **Session Persistence:** Re-established SSH to the OptiPlex (which remained running). Re-ran the Rclone config to get a fresh token. | Disaster Recovery |
+
 ___
 # Lessons Learned
 
 The following observations were extracted from the incidents above and represent general operational lessons for future deployments.
 
 ---
-
 ## Infrastructure Lessons
 
 - **ISO Media Priority:** Hypervisors often attempt to boot from mounted installation media before local disks. Always unmount ISO files after the first successful OS installation to prevent boot issues.  
 - **False Boot Errors:** Some Linux shutdown or reboot errors can simply indicate that virtual hardware is still attached. Checking the hypervisor configuration often resolves these messages quickly.
 
 ---
-
 ## Containerization Lessons
 
 - **Docker Permission Gotcha:** After installing Docker, commands may still require `sudo` until the user is added to the `docker` group and the session is refreshed. Always verify group membership before troubleshooting Docker itself.
 
 ---
-
 ## Networking Lessons
 
 - **DHCP vs Static Visibility:** ISP routers may not properly display devices using manually assigned static IP addresses. Always confirm connectivity via SSH before assuming a device is offline.
@@ -87,7 +93,6 @@ The following observations were extracted from the incidents above and represent
 
 - **Cloudflare Proxy Limitations:** Cloudflare only proxies HTTP/HTTPS traffic. Services relying on UDP or non-web protocols (such as Minecraft servers) must use **DNS-only mode** for direct client connections.
 ___
-
 ### **Remote Access & Identity Lessons**
 
 - **SaaS Domain Multi-Tenancy**: Many SaaS platforms (like Tailscale) use the email domain (e.g., `@email.vccs.edu`) to automatically group users into "Organizations."
@@ -96,8 +101,18 @@ ___
 
 - **Force Re-authentication**: When switching between Tailscale accounts on a Linux host, use the `--force-reauth` flag to ensure the node's key is correctly associated with the new tailnet.
 
--  **Utility Parity across OS:** Do not assume standard Linux/macOS scripts (like `ssh-copy-id`) exist on Windows PowerShell; always verify your toolchain on all admin devices.
+- **Utility Parity across OS:** Do not assume standard Linux/macOS scripts (like `ssh-copy-id`) exist on Windows PowerShell; always verify your toolchain on all admin devices.
 
 - **Manual Identity Deployment:** In the absence of automated scripts, a PowerShell pipe (`type | ssh`) is a reliable way to deploy public keys while maintaining strict file permissions (`chmod 600`) on the host.
 
 - **Redundant Access Points:** Always verify that at least two independent devices (e.g., MacBook via Tailscale and Main PC via LAN) have working SSH keys before disabling password authentication to prevent a permanent lockout.
+___
+## Disaster Recovery & Tooling Lessons
+
+- **The "Double-Folder" Zip Trap:** Many Windows zip utilities create a top-level container folder. Always verify the location of the `.exe` with `ls` or `dir` before assuming a path is correct.
+
+- **Token One-Time Use:** Authentication tokens provided via browser redirects are often one-time use. If the terminal session closes before the token is pasted, the process must be restarted to generate a new valid handshake.
+
+- **Snapshot vs. Backup Utility:** Snapshots are for "Undo" (fast, local); Backups are for "Disaster" (slow, offsite). Keeping one stable snapshot is an efficient middle ground for active development.
+
+- **Data Exclusion in VM Images:** To prevent ballooning backup sizes, always exclude bulk data drives (HDDs) from Proxmox VM backups if that data is already being synced via other methods (Rclone).
