@@ -21,7 +21,6 @@ The following values represent the recovery architecture for the **angel-node-01
 
 The backup script must be configured to handle three distinct sync jobs to ensure total coverage. Run `nano ~/scripts/offsite-backup.sh` and ensure it contains:
 
-Bash
 
 ```
 #!/bin/bash

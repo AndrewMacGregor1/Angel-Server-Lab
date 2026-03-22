@@ -7,87 +7,75 @@ This is a documentation-first home lab project centered around a Dell OptiPlex 9
 The following diagram represents the planned architecture of the Angel Server lab as the project progresses through the YouTube series.
 
 ```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': {
-  'primaryColor': '#534AB7',
-  'primaryTextColor': '#fff',
-  'primaryBorderColor': '#3C3489',
-  'lineColor': '#888780',
-  'secondaryColor': '#0F6E56',
-  'tertiaryColor': '#1a1a2e'
-}}}%%
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#2ecc71', 'edgeLabelBackground':'#282c34', 'tertiaryColor': '#282c34'}}}%%
+graph LR
+    %% Custom Styles
+    classDef internet fill:#e67e22,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef cloud fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef home fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef node fill:#2c3e50,stroke:#fff,stroke-width:1px,color:#fff;
+    classDef storage fill:#8e44ad,stroke:#fff,stroke-width:2px,color:#fff;
 
-flowchart TD
+    subgraph External ["External Access"]
+        User((Remote Access)):::internet
+        Guest((Public Guest)):::internet
+    end
 
-    %% ── External ──
-    RemoteUser(["Remote user"])
-    PublicGuest(["Public guest"])
+    subgraph Cloud ["Cloud & Offsite"]
+        TS[Tailscale Mesh VPN]:::cloud
+        CF[Cloudflare DNS / DDNS]:::cloud
+    end
 
-    %% ── Cloud ──
-    TS["Tailscale VPN<br/>Encrypted mesh"]
-    CF["Cloudflare<br/>DNS / DDNS"]
+    subgraph Lab ["Home Lab: OptiPlex 9020"]
+        Router[Cox Gateway]:::home
+        
+        subgraph Physical ["Physical Host"]
+            PVE[Proxmox VE]:::node
+            
+            subgraph Virtual ["Virtual Node"]
+                OS[angel-node-01]:::node
+                
+                subgraph Docker ["Docker Platform"]
+                    NPM[Nginx Proxy Manager]:::node
+                    Portainer[Portainer UI]:::node
+                    Immich[Immich Engine]:::node
+                end
+            end
+        end
+        HDD[(500GB HDD)]:::home
+    end
 
-    %% ── Gateway ──
-    GW["Cox gateway<br/>192.168.0.1"]
+    subgraph Backups ["3-2-1 Backup Tier"]
+        VZDump[VZDump Weekly Images]:::node
+        Cron[Nightly Cron Job]:::node
+        Rclone[Rclone Crypt Engine]:::node
+        GDRIVE[(Google Drive: Crypt)]:::storage
+    end
 
-    %% ── Hypervisor ──
-    PVE["Proxmox VE<br/>192.168.0.150"]
+    %% Force Horizontal Alignment and Clear Paths
+    Lab --- Backups
+    Cloud ~~~ Lab
 
-    %% ── VM & Docker ──
-    NODE["angel-node-01<br/>192.168.0.151"]
-    NPM["Nginx Proxy Manager<br/>Reverse proxy · HTTPS :443"]
-    PORT["Portainer<br/>Docker UI"]
-    MC["Minecraft Bedrock<br/>UDP :19132"]
-    IMMICH["Immich<br/>Photo engine"]
-    HDD[("500GB HDD<br/>Photo storage")]
-
-    %% ── Backup ──
-    CRON["Cron job<br/>Nightly 2:00 AM"]
-    RCLONE["Rclone<br/>AES-256 crypt"]
-    VZDUMP["VZDump<br/>Weekly VM images"]
-    GDRIVE[("Google Drive<br/>Encrypted offsite")]
-
-    %% ── Traffic flows ──
-    RemoteUser -->|Tailscale tunnel| TS
-    PublicGuest --> CF
-
-    TS -->|Secure tunnel| PVE
-    TS -->|Secure tunnel| NODE
-    CF --> GW
-
-    GW -->|HTTPS :443| NPM
-    GW -->|UDP :19132| MC
-
-    PVE --> NODE
-
-    NODE --> NPM
-    NPM --> PORT
-    NPM --> IMMICH
-    IMMICH <--> HDD
-
-    %% ── Backup pipeline ──
-    NODE -.->|triggers| CRON
-    CRON --> RCLONE
-    VZDUMP -.->|weekly| RCLONE
-    RCLONE ==>|AES-256 encrypted sync| GDRIVE
-
-    %% ── Styles ──
-    classDef external  fill:#993C1D,stroke:#F0997B,color:#fff
-    classDef cloud     fill:#185FA5,stroke:#85B7EB,color:#fff
-    classDef gateway   fill:#444441,stroke:#B4B2A9,color:#fff
-    classDef hyperv    fill:#3C3489,stroke:#AFA9EC,color:#fff
-    classDef vm        fill:#085041,stroke:#5DCAA5,color:#fff
-    classDef service   fill:#27500A,stroke:#97C459,color:#fff
-    classDef backup    fill:#854F0B,stroke:#EF9F27,color:#fff
-    classDef storage   fill:#3C3489,stroke:#AFA9EC,color:#fff
-
-    class RemoteUser,PublicGuest external
-    class TS,CF cloud
-    class GW gateway
-    class PVE hyperv
-    class NODE,NPM,PORT,IMMICH vm
-    class MC service
-    class CRON,RCLONE,VZDUMP backup
-    class HDD,GDRIVE storage
+    %% Traffic Flows (Direct Connections)
+    User --> TS
+    Guest --> CF
+    
+    %% Management Tunnels (Vertical drops to avoid VZDump)
+    TS ===|Secure Tunnel| PVE
+    TS ===|Secure Tunnel| OS
+    
+    CF --> Router
+    Router --> NPM
+    
+    %% Service & Data
+    NPM --> Immich
+    Immich <--> HDD
+    
+    %% Backup Logic (Isolated to the right)
+    OS -.-> Cron
+    VZDump -.-> Rclone
+    Cron --> Rclone
+    Rclone ==>|AES-256 Encrypted Sync| GDRIVE
 ```
 
 ## 3. Technical Stack
@@ -104,15 +92,14 @@ flowchart TD
 
 The following table tracks the transition from foundational infrastructure to high-level service deployment. Each milestone corresponds to a technical phase and its associated documentation.
 
-| **Episode** | **Phase**                    | **Primary Milestones**                                                | **Documentation**                                                                                                                         | **Video Link**                              |     |
-| ----------- | ---------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | --- |
-| 01          | The Foundation               | Proxmox Installation, VM Provisioning                                 | **[SOP-01](02_SOPs/SOP-01_Proxmox_Installation.md) to [SOP-04](02_SOPs/SOP-04_Ubuntu_Server_Provisioning.md)**                            | https://www.youtube.com/watch?v=c6ZbCqxJuvM |     |
-| 02          | Containerization             | Docker Engine, Portainer, Snapshots                                   | **[SOP-05](02_SOPs/SOP-05_Guest_Services_&_Data_Integrity.md)** to **[SOP-07:](02_SOPs/SOP-07_Containerization_(Docker_&_Portainer).md)** | https://www.youtube.com/watch?v=fCr6QeNjRn0 |     |
-| 03          | Edge Networking and Services | Nginx Proxy Manager, Cloudflare DNS, Minecraft Bedrock, Tailscale VPN | **[SOP-08](02_SOPs/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** to **[SOP-11](02_SOPs/SOP-11_Secure_Remote_Access.md)**    | https://www.youtube.com/watch?v=fT8O6tvYz6E |     |
-| 04          | System Hardening             | SSH Keys, Password Disable, Git                                       | **[SOP-12](02_SOPs/SOP-12_SSH_Key-Based_Authentication.md)**                                                                              | https://www.youtube.com/watch?v=_-WZi9831JQ |     |
-| 05          | Personal Cloud               | Storage Expansion, Immich, 3-2-1 Backup                               | **[SOP-13](02_SOPs/SOP-13_Physical_Storage_Expansion.md)** to **[SOP-16](SOP-16_Automated_OS_&_Configuration_Redundancy.md)**             | Pending                                     |     |
-|             |                              |                                                                       |                                                                                                                                           |                                             |     |
-|             |                              |                                                                       |                                                                                                                                           |                                             |     |
+| **Episode** | **Phase**                    | **Primary Milestones**                                                | **Documentation**                                                                                                                        | **Video Link**                              |     |
+| ----------- | ---------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | --- |
+| 01          | The Foundation               | Proxmox Installation, VM Provisioning                                 | **[SOP-01](02_SOPs/SOP-01_Proxmox_Installation.md) to [SOP-04](02_SOPs/SOP-04_Ubuntu_Server_Provisioning.md)**                           | https://www.youtube.com/watch?v=c6ZbCqxJuvM |     |
+| 02          | Containerization             | Docker Engine, Portainer, Snapshots                                   | **[SOP-05](02_SOPs/SOP-05_Guest_Services_&_Data_Integrity.md)** to **[SOP-07](02_SOPs/SOP-07_Containerization_(Docker_&_Portainer).md)** | https://www.youtube.com/watch?v=fCr6QeNjRn0 |     |
+| 03          | Edge Networking and Services | Nginx Proxy Manager, Cloudflare DNS, Minecraft Bedrock, Tailscale VPN | **[SOP-08](02_SOPs/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)** to **[SOP-11](02_SOPs/SOP-11_Secure_Remote_Access.md)**   | https://www.youtube.com/watch?v=fT8O6tvYz6E |     |
+| 04          | System Hardening             | SSH Keys, Password Disable, Git                                       | **[SOP-12](02_SOPs/SOP-12_SSH_Key-Based_Authentication.md)**                                                                             | Pending                                     |     |
+| 06          | Personal Cloud               | Storage Expansion, Immich, 3-2-1 Backup                               | **[SOP-13](02_SOPs/SOP-13_Physical_Storage_Expansion.md)** to **[SOP-15](02_SOPs/SOP-15_Automated_Offsite_Data_Redundancy.md)**          | Pending                                     |     |
+|             |                              |                                                                       |                                                                                                                                          |                                             |     |
 
 ## Repository Structure
 
