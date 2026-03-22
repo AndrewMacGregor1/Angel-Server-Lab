@@ -44,5 +44,4 @@ Documentation in this section tracks the operational health and evolution of the
 
 This section bridges the gap between technical implementation and public documentation for the YouTube series. It provides a direct mapping of SOPs to specific video episodes and acts as a scratchpad for future laboratory expansions and educational content ideas.
 
-- **[YouTube Video Log](03_Content/YouTube_Video_Log.md)** — Links to episodes and the specific SOPs covered in each.
 - **[Episode Brainstorming](03_Content/Episode_Brainstorming.md)** — Ideas for future lab expansions.
