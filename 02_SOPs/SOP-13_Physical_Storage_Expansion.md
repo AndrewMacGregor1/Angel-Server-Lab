@@ -1,27 +1,24 @@
-## 1. Purpose
+### 1. Purpose
 
-This procedure defines the initialization of a secondary physical Hard Disk Drive (HDD) within the Proxmox hypervisor and the subsequent mounting of that storage to the Ubuntu Server guest OS. This expansion provides a dedicated high-capacity volume for persistent data, such as photo backups or media, while preserving the primary SSD for the operating system.
+This procedure defines the initialization of a secondary physical Hard Disk Drive (HDD) within Proxmox and the implementation of a **Virtio-FS Directory Bridge** to the Ubuntu Server guest OS. This method allows the Proxmox host to manage the physical health of the drive while providing the VM high-speed, shared access to data volumes without the overhead of virtual disk images.
 
-## 2. Lab Environment Reference
-
-The following values are used for the **Angel Server** storage expansion.
+### 2. Lab Environment Reference
 
 |**Attribute**|**Value**|**Context**|
 |---|---|---|
 |**Physical Disk**|500GB HDD|WDC/ST Secondary Drive|
 |**Storage Name**|`angel-data`|Logical Proxmox Storage ID|
-|**Target Mount**|`/mnt/data`|Path inside Ubuntu VM (`.151`)|
-|**File System**|`ext4`|Standard Linux journaled file system|
+|**Host Path**|`/mnt/pve/angel-data`|Physical mount point on Proxmox|
+|**VM Mount**|`/mnt/data`|Path inside Ubuntu VM (`.151`)|
+|**Bridge Tech**|`Virtio-FS`|High-performance host-to-guest directory sharing|
 
-## 3. Physical Initialization (Proxmox UI)
-
-Before the VM can see the drive, it must be wiped and initialized by the hypervisor host (`192.168.0.150`).
+### 3. Physical Initialization (Proxmox UI)
 
 1. **Wipe Disk:** Navigate to **angel-server (node) > Disks**. Select the 500GB drive and click **Wipe Disk**.
     
 2. **Initialize:** Click **Initialize Disk with GPT**.
     
-3. **Create Storage:** Go to **Disks > Directory > Create: Directory**.
+3. **Create Directory Storage:** Go to **Disks > Directory > Create: Directory**.
     
     - **Disk:** Select the 500GB drive.
         
@@ -29,59 +26,57 @@ Before the VM can see the drive, it must be wiped and initialized by the hypervi
         
     - **Name:** `angel-data`.
         
-4. **Attach to VM:** Navigate to **VM 100 (angel-node-01) > Hardware**.
+    - _Proxmox will now mount this drive at `/mnt/pve/angel-data`_.
+        
+
+### 4. Virtio-FS Bridge Configuration
+
+Instead of adding a "Hard Drive" to the VM, we add a "Directory Mapping" to the Datacenter.
+
+**Step 1: Create Datacenter Mapping**
+
+1. Navigate to **Datacenter > Directory Mappings**.
     
-    - Click **Add > Hard Disk**.
-        
-    - **Storage:** Select `angel-data`.
-        
-    - **Disk Size:** `500` (or maximum available).
-        
-    - Click **Add**.
-        
+2. Click **Add**.
+    
+3. **ID:** `angel_data_bridge`.
+    
+4. **Path:** `/mnt/pve/angel-data`.
+    
 
-## 4. Guest OS Integration (Ubuntu CLI)
+**Step 2: Attach Hardware to VM**
 
-Now that the "virtual cable" is plugged in, the guest OS must be told where to put the data.
+1. Navigate to **VM 100 > Hardware**.
+    
+2. Click **Add > Virtio-FS**.
+    
+3. **Tag:** `angel_data_bridge`.
+    
+4. **Reboot the VM** to "plug in" the new virtual device.
+    
 
-**Step 1: Identify the new disk**
+### 5. Guest OS Integration (Ubuntu CLI)
 
-```
-lsblk
-```
-
-_(Look for a new disk, likely `/dev/sdb`, with a size of ~500G)._
-
-**Step 2: Create a partition and format (if not passed as raw)**
-
-```
-sudo mkfs.ext4 /dev/sdb1
-```
-
-**Step 3: Create the mount point and set permissions**
+**Step 1: Create the Mount Point**
 
 ```
 sudo mkdir -p /mnt/data
 sudo chown -R $USER:$USER /mnt/data
 ```
 
-**Step 4: Configure Persistent Mounting (`fstab`)**
+**Step 2: Configure Persistent Mounting (`fstab`)**
 
-To ensure the drive mounts automatically after a reboot, it must be added to the file system table.
+To ensure the bridge mounts automatically after a reboot:
 
-1. Get the drive UUID: `sudo blkid /dev/sdb1`
+1. Edit fstab: `sudo nano /etc/fstab`.
     
-2. Edit fstab: `sudo nano /etc/fstab`
+2. Add the following line to the bottom:
     
-3. Add the following line to the bottom:
-    
-    `UUID=[YOUR_UUID_HERE] /mnt/data ext4 defaults 0 2`
+    `angel_data_bridge /mnt/data virtiofs defaults 0 0`
     
 
-## 5. Post-SOP Verification
+### 6. Post-SOP Verification
 
-- **Mount Test:** Run `sudo mount -a`. If no errors appear, the config is correct.
+- **Mount Test:** Run `sudo mount -a`.
     
-- **Space Check:** Run `df -h` and verify that `/mnt/data` shows ~460GB of available space.
-    
-- **Persistence Test:** Reboot the VM (`sudo reboot`) and verify the drive is still mounted at `/mnt/data` upon login.
+- **Space Check:** Run `df -h /mnt/data` and verify it shows the HDD capacity (approx. 460GB-492GB).

@@ -15,6 +15,10 @@ INC-006 – Tailnet "Unpaid" error due to organizational domain conflict
 INC-007 – Windows PowerShell missing native 'ssh-copy-id' utility
 INC-008 – Rclone command "not recognized" in PowerShell
 INC-009 – Windows terminal closed during Rclone authorization
+INC-010 – NFS "Permission Denied" on unprivileged LXC mount 
+INC-011 – Minecraft world reset (empty folder) on first LXC boot 
+INC-012 – Proxmox boot hang waiting for NFS mount 
+INC-013 – Cox App "Device Ghosting" (LXC not appearing for port forward)
 
 ```
 
@@ -65,6 +69,14 @@ ___
 | **2026-03-22** | **INC-009 – Windows terminal closed during Rclone authorization** | **OS Resource Spike/Crash:** The browser "Success" redirect triggered a desktop environment refresh or minor crash on the Windows host, closing active SSH sessions.        | **Session Persistence:** Re-established SSH to the OptiPlex (which remained running). Re-ran the Rclone config to get a fresh token. | Disaster Recovery |
 
 ___
+## Phase 7 – Advanced Storage & Virtualization (LXC Migration)
+
+| **Date**       | **The "Break"**                                                            | **Root Cause**                                                                                                                        | **The Fix**                                                                                                                                    | **Video Segment** |
+| -------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| **2026-03-30** | **INC-010 – NFS mount visible but "Permission Denied" inside LXC**         | **UID Mismatch:** Unprivileged LXCs shift UIDs by 100,000. The LXC "root" was seen by the NFS server as an unknown high-number user.  | **ID Mapping:** Edited `/etc/pve/lxc/101.conf` to map UID 1000 to 1000 and updated `/etc/subuid` to allow the mapping.                         | LXC Migration     |
+| **2026-03-30** | **INC-011 – Minecraft started a new world instead of loading the old one** | **The "Empty Rug" Trap:** The LXC started before the NFS share was mounted, so Docker created new data in the empty mount point.      | **Startup Delay:** Set the Ubuntu VM (NFS Server) to Start Order 1 with a 60s delay, and the LXC to Start Order 2.                             | LXC Migration     |
+| **2026-03-30** | **INC-012 – Proxmox Host hung during reboot**                              | **NFS Dependency:** The Host tried to mount the VM's NFS share before the network/VM was up, causing a boot-time timeout.             | **fstab Hardening:** Added `_netdev` and `soft` options to the NFS line in `/etc/fstab` to allow the boot to continue if the share is missing. | LXC Migration     |
+| **2026-03-30** | **INC-013 – Cox App refused to show "minecraft-lxc" for port forwarding**  | **ARP/DHCP Silence:** The router hadn't seen a DHCP request from the LXC's MAC address, so it assumed the device was offline/ghosted. | **The "Wake Up" Call:** Switched LXC to DHCP temporarily and used `arping` and `curl` to force the router to register the active connection.   | Edge Networking   |
 # Lessons Learned
 
 The following observations were extracted from the incidents above and represent general operational lessons for future deployments.
@@ -107,7 +119,7 @@ ___
 
 - **Redundant Access Points:** Always verify that at least two independent devices (e.g., MacBook via Tailscale and Main PC via LAN) have working SSH keys before disabling password authentication to prevent a permanent lockout.
 ___
-## Disaster Recovery & Tooling Lessons
+### **Disaster Recovery & Tooling Lessons**
 
 - **The "Double-Folder" Zip Trap:** Many Windows zip utilities create a top-level container folder. Always verify the location of the `.exe` with `ls` or `dir` before assuming a path is correct.
 
@@ -116,3 +128,25 @@ ___
 - **Snapshot vs. Backup Utility:** Snapshots are for "Undo" (fast, local); Backups are for "Disaster" (slow, offsite). Keeping one stable snapshot is an efficient middle ground for active development.
 
 - **Data Exclusion in VM Images:** To prevent ballooning backup sizes, always exclude bulk data drives (HDDs) from Proxmox VM backups if that data is already being synced via other methods (Rclone).
+
+### **Advanced Virtualization Lessons**
+
+- **The Unprivileged "Wall":** Unprivileged LXCs are safer but require manual UID/GID mapping to interact with host-mounted storage. Always verify `ls -ln` output to see raw numeric IDs when troubleshooting.
+    
+- **Mount Point Overlays:** Mounting a drive over a non-empty directory "hides" the old files. Always ensure your mount point is empty before attaching storage to avoid "Ghost Files" eating SSD space.
+    
+- **Boot Sequencing Matters:** In a decoupled architecture (Storage VM + App LXC), the storage provider **must** have a startup priority and delay to ensure data is available before applications request it.
+    
+
+### **Storage Networking Lessons**
+
+- **NFS Versioning:** When mixing different Linux kernels (Proxmox Host vs. Ubuntu VM), explicitly forcing `nfsvers=3` in `fstab` can resolve mounting handshake failures.
+    
+- **Master Share Efficiency:** Exporting a parent "Master" directory (e.g., `/mnt/data`) is more scalable than individual micro-shares. It allows you to add new sub-folders for new LXCs without editing the VM's `/etc/exports` every time.
+    
+
+### **ISP Hardware Lessons**
+
+- **DHCP Handshake over Static:** For managed ISP routers (Cox/Xfinity), using a **DHCP Reservation** on the router and setting the client to **DHCP** is more reliable for device visibility than setting a "Static IP" on the client itself.
+    
+- **Active Traffic for Discovery:** Pinging the gateway is often not enough for modern "Smart" apps to see a device. A full TCP/HTTPS request (like `curl google.com`) is more likely to trigger device discovery in the ISP's app.
