@@ -1,9 +1,8 @@
-Here is the completely rewritten **Network_Cheat_Sheet.md**. This version incorporates the new **Tailscale** addressing and the **SSH hardening** requirements, ensuring your "Source of Truth" reflects the state of the lab after completing **SOP-11** and **SOP-12**.
 
 ---
 ## 1. Core Infrastructure (Layer 3)
 
-The following table outlines the foundational network addressing for the home lab. All local infrastructure is contained within the `192.168.0.0/24` subnet.
+This table outlines the  network addressing for my home lab.
 
 |**Device/Node**|**Hostname**|**Local Static IP**|**Tailscale IP (VPN)**|**Management Port**|
 |---|---|---|---|---|
@@ -39,18 +38,17 @@ Mapping the physical hardware to the virtual environment.
     
 - **Virtual Bridge (`vmbr0`):** Software-defined bridge mapping the physical NIC to all internal VMs and LXCs.
     
-- **Storage Bridge:** **NFS Master Share** on `.151` exported to Proxmox Host and bind-mounted to LXCs.
     
 
 ## 4. Virtual Networking (Tailscale Tailnet)
 
 The following table tracks the private mesh network addresses used for remote administration and bypassing ISP port restrictions.
 
-|**Device Name**|**Tailscale IP**|**Primary Role**|**Access Policy**|
-|---|---|---|---|
-|**proxmox-host**|`100.x.x.x`|Bare-Metal Management|Internal/Mesh Only|
-|**angel-node-01**|`100.y.y.y`|**NFS Master Storage / NPM**|Internal/Mesh Only|
-|**minecraft-lxc**|`100.a.a.a`|Dedicated Game Server|Internal/Mesh Only|
-|**jellyfin-lxc**|`100.b.b.b`|Media Server (QSV)|Internal/Mesh Only|
-|**ingest-vm**|`100.c.c.c`|VPN Protected Downloads|Internal/Mesh Only|
-|**work-laptop**|`100.z.z.z`|Remote Management Device|Authorized Key-hold|
+| **Device Name**   | **Tailscale IP** | **Primary Role**         | **Access Policy**   |
+| ----------------- | ---------------- | ------------------------ | ------------------- |
+| **proxmox-host**  | `100.x.x.x`      | Bare-Metal Management    | Internal/Mesh Only  |
+|                   |                  |                          |                     |
+| **minecraft-lxc** | `100.a.a.a`      | Dedicated Game Server    | Internal/Mesh Only  |
+| **jellyfin-lxc**  | `100.b.b.b`      | Media Server (QSV)       | Internal/Mesh Only  |
+| **ingest-vm**     | `100.c.c.c`      | VPN Protected Downloads  | Internal/Mesh Only  |
+| **work-laptop**   | `100.z.z.z`      | Remote Management Device | Authorized Key-hold |

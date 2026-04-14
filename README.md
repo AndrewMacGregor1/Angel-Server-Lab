@@ -1,10 +1,10 @@
 ## 1. Project Overview
 
-This is a documentation-first home lab project centered around a Dell OptiPlex 9020 SFF. This repository tracks the transition from classroom theory at Virginia Western Community College (VWCC) to hands-on Linux Administration and Enterprise Networking experience.
-
+Hello! My name is Drew, and this repo is for my home lab. I started this lab because I wanted to get some hands on IT experience outside of my college coursework. I have had a lot of fun, and the lab is growing quickly! Alongside my documentation here - I am filming a YouTube series to show my progression as the lab continues. The name "angel server" is inspired by my favorite cat, Angel.
+![angel](./assets/angel.jpeg)
 ## 2. Infrastructure Architecture
 
-The following diagram represents the planned architecture of the Angel Server lab as the project progresses through the YouTube series.
+This is a diagram I made on draw.io to give you an idea of what my home lab looks like at the moment:
 
 ![Network Topology](./assets/Final.drawio.png)
 
@@ -21,7 +21,7 @@ The following diagram represents the planned architecture of the Angel Server la
 
 ## 4. Project Roadmap & Video Series
 
-The following table tracks the transition from foundational infrastructure to high-level service deployment. Each milestone corresponds to a technical phase and its associated documentation.
+This table shows each episode, and it's respective matching documentation links.
 
 | **Episode** | **Phase**                    | **Primary Milestones**                                                | **Documentation**                                                                                                                        | **Video Link**                              |     |
 | ----------- | ---------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | --- |

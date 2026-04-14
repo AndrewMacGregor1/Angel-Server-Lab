@@ -32,8 +32,8 @@ INC-013 – Cox App "Device Ghosting" (LXC not appearing for port forward)
 ---
 ## Phase 2 – Containerization (Docker & Portainer)
 
-| **Date** | **The "Break"** | **Root Cause** | **The Fix** | **Video Segment** |
-|----------|-----------------|---------------|-------------|-------------------|
+| **Date**       | **The "Break"**                                                              | **Root Cause**                                                                                                                                  | **The Fix**                                                                                                             | **Video Segment**      |
+| -------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | **2026-02-28** | **INC-002 – Docker commands required `sudo` despite Docker being installed** | **User Permission Issue:** The primary user had not yet been added to the `docker` group, meaning Docker commands required elevated privileges. | Added the user to the Docker group using `sudo usermod -aG docker $USER` and logged out/in to refresh group membership. | Containerization Phase |
 
 ---
@@ -48,9 +48,10 @@ INC-013 – Cox App "Device Ghosting" (LXC not appearing for port forward)
 ---
 ## Phase 4 – Service Deployment (Minecraft Server)
 
-| **Date** | **The "Break"** | **Root Cause** | **The Fix** | **Video Segment** |
-|----------|-----------------|---------------|-------------|-------------------|
+| **Date**       | **The "Break"**                                                      | **Root Cause**                                                                                                                                                                                                                           | **The Fix**                                                                                                                                                                       | **Video Segment**      |
+| -------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | **2026-03-10** | **INC-005 – Minecraft server unreachable despite container running** | **Cloudflare Proxy Conflict:** The root DNS record (`angelserver.live`) was set to **Proxied (orange cloud)**. Cloudflare only proxies HTTP/HTTPS traffic and does not support UDP game traffic such as Minecraft Bedrock (`19132/udp`). | **DNS Only Mode:** Disabled Cloudflare proxy for the `angelserver.live` A record by switching it to **DNS Only (grey cloud)**, allowing direct connections to the home server IP. | Game Server Deployment |
+|                |                                                                      |                                                                                                                                                                                                                                          |                                                                                                                                                                                   |                        |
 
 ---
 ## Phase 5 – Remote Access & Hardening (Episode 04)

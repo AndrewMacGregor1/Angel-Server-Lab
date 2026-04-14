@@ -15,11 +15,11 @@ These values represent the current baseline for the server's network presence.
 
 These rules dictate which "doors" are open on the Cox gateway to allow traffic to reach the Proxmox environment.
 
-|**Service**|**External Port**|**Internal Port**|**Target IP**|**Protocol**|**Status**|
-|---|---|---|---|---|---|
-|**HTTPS**|443|443|`192.168.0.151`|TCP|**Open** (NPM Traffic)|
-|**NPM Admin**|81|81|`192.168.0.151`|TCP|**Open** (Management)|
-|**Minecraft**|**19132**|**19132**|**`192.168.0.160`**|**UDP**|**Open (LXC 101)**|
+| **Service**   | **External Port** | **Internal Port** | **Target IP**       | **Protocol** | **Status**             |
+| ------------- | ----------------- | ----------------- | ------------------- | ------------ | ---------------------- |
+| **HTTPS**     | 443               | 443               | `192.168.0.151`     | TCP          | **Open** (NPM Traffic) |
+| **NPM Admin** | 81                | 81                | `192.168.0.151`     | TCP          | **Open** (Management)  |
+| **Minecraft** | 19132             | 19132             | **`192.168.0.160`** | **UDP**      | **Open (LXC 101)**     |
 
 ---
 

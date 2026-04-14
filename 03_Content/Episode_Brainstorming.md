@@ -30,13 +30,7 @@
     - **Concept:** Real-time monitoring of your services with phone notifications if Minecraft or NPM goes down.
         
 
-## Media & Content
 
-- **Automated Media Server (Plex or Jellyfin):**
-    
-    - **Concept:** Streaming your own media library to your phone or TV.
-        
-    - **Educational Goal:** Hardware passthrough in Proxmox and managing large media libraries.
         
 
 ## **Long-Term Infrastructure (CCNA Focus)**
