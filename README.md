@@ -6,81 +6,8 @@ This is a documentation-first home lab project centered around a Dell OptiPlex 9
 
 The following diagram represents the planned architecture of the Angel Server lab as the project progresses through the YouTube series.
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#2ecc71', 'edgeLabelBackground':'#282c34', 'tertiaryColor': '#282c34'}}}%%
-graph LR
-    %% Custom Styles
-    classDef internet fill:#e67e22,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef cloud fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef home fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef node fill:#2c3e50,stroke:#fff,stroke-width:1px,color:#fff;
-    classDef storage fill:#8e44ad,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef vpn fill:#c0392b,stroke:#fff,stroke-width:2px,color:#fff;
+![Network Topology](./assets/Final.drawio.png)
 
-    subgraph External ["External Access"]
-        User((Remote Access)):::internet
-        Guest((Public Guest)):::internet
-    end
-
-    subgraph Cloud ["Cloud & Offsite"]
-        TS[Tailscale Mesh VPN]:::cloud
-        CF[Cloudflare DNS / DDNS]:::cloud
-    end
-
-    subgraph Lab ["Home Lab: OptiPlex 9020"]
-        Router[Cox Gateway]:::home
-        
-        subgraph Physical ["Physical Host (Proxmox VE)"]
-            PVE[Proxmox Hypervisor]:::node
-            
-            subgraph VirtualNodes ["Virtual Machines & Containers"]
-                direction TB
-                OS[angel-node-01]:::node
-                DL[download-node]:::vpn
-                JELLY[JELLY-LXC]:::node
-                
-                subgraph Docker ["Docker Platform (on angel-node-01)"]
-                    NPM[Nginx Proxy Manager]:::node
-                    MC[Minecraft Bedrock]:::node
-                    Immich[Immich Engine]:::node
-                end
-            end
-            
-            HDD[(Toshiba 500GB HDD)]:::storage
-        end
-    end
-
-    subgraph Backups ["3-2-1 Backup Tier"]
-        VZDump[VZDump Weekly Images]:::node
-        Rclone[Rclone Crypt Engine]:::node
-        GDRIVE[(Google Drive: Crypt)]:::storage
-    end
-
-    %% Storage Bind Mounts & Flows
-    HDD -.-|Bind Mount| JELLY
-    HDD -.-|Bind Mount| DL
-    DL -->|movemedia.sh| HDD
-    
-    %% Traffic Flows
-    User --> TS
-    Guest --> CF
-    
-    %% Secure Tunnels
-    TS ===|Secure Tunnel| PVE
-    TS ===|Secure Tunnel| JELLY
-    
-    CF --> Router
-    Router -->|HTTPS :443| NPM
-    
-    %% Service Routing
-    NPM --> Immich
-    NPM --> JELLY
-    
-    %% Backup Logic
-    VirtualNodes -.-> VZDump
-    VZDump -.-> Rclone
-    Rclone ==>|AES-256 Encrypted Sync| GDRIVE
-```
 
 ## 3. Technical Stack
 
