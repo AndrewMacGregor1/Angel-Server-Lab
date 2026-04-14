@@ -15,6 +15,7 @@ graph LR
     classDef home fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff;
     classDef node fill:#2c3e50,stroke:#fff,stroke-width:1px,color:#fff;
     classDef storage fill:#8e44ad,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef vpn fill:#c0392b,stroke:#fff,stroke-width:2px,color:#fff;
 
     subgraph External ["External Access"]
         User((Remote Access)):::internet
@@ -29,57 +30,55 @@ graph LR
     subgraph Lab ["Home Lab: OptiPlex 9020"]
         Router[Cox Gateway]:::home
         
-        subgraph Physical ["Physical Host"]
-            PVE[Proxmox VE]:::node
+        subgraph Physical ["Physical Host (Proxmox VE)"]
+            PVE[Proxmox Hypervisor]:::node
             
-            subgraph Virtual ["Virtual Node"]
+            subgraph VirtualNodes ["Virtual Machines & Containers"]
+                direction TB
                 OS[angel-node-01]:::node
+                DL[download-node]:::vpn
+                JELLY[JELLY-LXC]:::node
                 
-                subgraph Docker ["Docker Platform"]
+                subgraph Docker ["Docker Platform (on angel-node-01)"]
                     NPM[Nginx Proxy Manager]:::node
-                    Portainer[Portainer UI]:::node
                     MC[Minecraft Bedrock]:::node
                     Immich[Immich Engine]:::node
                 end
             end
+            
+            HDD[(Toshiba 500GB HDD)]:::storage
         end
-        HDD[(500GB HDD)]:::home
     end
 
     subgraph Backups ["3-2-1 Backup Tier"]
         VZDump[VZDump Weekly Images]:::node
-        Cron[Nightly Cron Job]:::node
         Rclone[Rclone Crypt Engine]:::node
         GDRIVE[(Google Drive: Crypt)]:::storage
     end
 
-    %% Force Horizontal Alignment and Clear Paths
-    Lab --- Backups
-    Cloud ~~~ Lab
-
-    %% Traffic Flows (Direct Connections)
+    %% Storage Bind Mounts & Flows
+    HDD -.-|Bind Mount| JELLY
+    HDD -.-|Bind Mount| DL
+    DL -->|movemedia.sh| HDD
+    
+    %% Traffic Flows
     User --> TS
     Guest --> CF
     
-    %% Management Tunnels (Vertical drops to avoid VZDump)
+    %% Secure Tunnels
     TS ===|Secure Tunnel| PVE
-    TS ===|Secure Tunnel| OS
+    TS ===|Secure Tunnel| JELLY
     
     CF --> Router
-    
-    %% Traffic Routing (As per Breakage Log INC-005)
     Router -->|HTTPS :443| NPM
-    Router -->|UDP :19132| MC
     
-    %% Service & Data
-    NPM --> Portainer
+    %% Service Routing
     NPM --> Immich
-    Immich <--> HDD
+    NPM --> JELLY
     
-    %% Backup Logic (Isolated to the right)
-    OS -.-> Cron
+    %% Backup Logic
+    VirtualNodes -.-> VZDump
     VZDump -.-> Rclone
-    Cron --> Rclone
     Rclone ==>|AES-256 Encrypted Sync| GDRIVE
 ```
 
