@@ -1,8 +1,8 @@
-### 1. Purpose
+## 1. Purpose
 
 This procedure defines the multi-layer backup strategy for the **Angel Server**. By utilizing a high-capacity HDD for local image storage and an encrypted offsite sync, we achieve redundancy without sacrificing primary SSD lifespan or performance.
 
-### 2. Lab Environment Reference
+## 2. Lab Environment Reference
 
 |**Attribute**|**Value**|**Context**|
 |---|---|---|
@@ -14,7 +14,7 @@ This procedure defines the multi-layer backup strategy for the **Angel Server**.
 
 ---
 
-### 3. Layer 1: Configuration & Image Automation
+## 3. Layer 1: Configuration & Image Automation
 
 **Step 1: Create the Discord Webhook**
 
@@ -63,7 +63,7 @@ curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"🚀 **Back
 
 ---
 
-### 4. Recovery Procedures
+## 4. Recovery Procedures
 
 **Scenario A: SSD Failure / OS Corruption**
 
@@ -85,7 +85,7 @@ curl -H "Content-Type: application/json" -X POST -d "{\"content\": \"🚀 **Back
 
 ---
 
-### 5. Post-SOP Verification
+## 5. Post-SOP Verification
 
 - **Discord Check:** Manually run the script (`sudo ~/scripts/offsite-backup.sh`) and verify the notification appears in your Discord channel.
     

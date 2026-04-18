@@ -7,7 +7,8 @@
 
 These Standard Operating Procedures define the repeatable steps used to build and scale the Angel Server infrastructure.
 
-- **[SOP-01: Proxmox Installation](02_SOPs/SOP-01_Proxmox_Installation.md)** — Hardware prep and bare-metal hypervisor install.
+- **[SOP-01: Proxmox Installation](02_SOPs/SOP-01_Proxmox_Installation.md)** — Hardware prep and bare-metal hypervisor install on Dell OptiPlex 9020 SFF.
+- **[SOP-1.5: N100 Node Provisioning](02_SOPs/SOP-1.5_N100_Node_Provisioning.md)** — Hardware prep and bare-metal hypervisor install on n100 mini PC.
 - **[SOP-02: ISO Management](02_SOPs/SOP-02_ISO_Management.md)** — Network transfer of OS images to the server.
 - **[SOP-03: VM Shell Creation](02_SOPs/SOP-03_VM_Shell_Creation.md)** — Resource allocation and virtual hardware configuration.
 - **[SOP-04: Ubuntu Provisioning](02_SOPs/SOP-04_Ubuntu_Server_Provisioning.md)** — Finalizing the primary node and base hardening.
@@ -26,7 +27,9 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-16: Automated OS & Configuration Redundancy](02_SOPs/SOP-16_Automated_OS_&_Configuration_Redundancy)** — Configuring Rclone for backups of OS.
 - **[SOP-17: Dedicated Minecraft LXC & Traffic Redirection ](02_SOPs/SOP-17_Dedicated_Minecraft_LXC_&_Traffic_Redirection.md)** — Moves Minecraft container to an independent LXC and sets up drive sharing with NFS and bind mounts.
 - **[SOP-18: Jellyfin Media Server LXC + Hardware Transcoding](02_SOPs/SOP-18_Jellyfin_Media_Server_LXC_+_Hardware_Transcoding.md)** — Setting up jellyfin in it's own independent LXC.
-- **[SOP-19 VPN Protected Ingest VM](02_SOPs/SOP-19_VPN_Protected_Ingest_VM.md)** —  Setting up a VM for torrenting with a kill switch.
+- **[SOP-19: VPN Protected Ingest VM](02_SOPs/SOP-19_VPN_Protected_Ingest_VM.md)** —  Setting up a VM for torrenting with a kill switch.
+- **[SOP-20: Catalyst 2960 Configuration](02_SOPs/SOP-20_Catalyst_2960_Configuration.md)** —  Basic Layer 2 configuration of new Cisco Catalyst switch.
+- **[SOP-21: NFS Storage Bridge & N100 Service Deployment](02_SOPs/SOP-21_NFS_Storage_Bridge_&_N100_Service_Deployment.md)** —  Establishes a NFS bridge between the Dell OptiPlex and the new n100 mini PC.
 
 ## 3. Network Topology & Infrastructure
 

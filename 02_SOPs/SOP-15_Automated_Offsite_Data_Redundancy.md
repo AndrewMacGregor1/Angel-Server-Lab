@@ -1,19 +1,19 @@
-### 1. Purpose
+## 1. Purpose
 
 This procedure defines the automation of encrypted offsite backups for the **Angel Server** data volume. By utilizing **Rclone**, critical data stored on the 500GB HDD is synchronized to a remote "Cold Storage" tier, fulfilling the 3-2-1 backup standard: 3 copies of data, 2 different media, 1 offsite.
 
-### 2. Lab Environment Reference
+## 2. Lab Environment Reference
 
 The following values represent the backup architecture for the **angel-node-01** Ubuntu node.
 
-|**Attribute**|**Value**|**Context**|
-|---|---|---|
-|**Source Path**|`/mnt/data/immich-photos`|Local HDD storage for originals|
-|**Backup Tool**|`Rclone`|Command-line program to manage cloud storage|
-|**Remote Target**|`Backblaze B2 / AWS S3`|Example offsite "Cold Storage" provider|
-|**Encryption**|`Rclone Crypt`|Client-side encryption before data leaves the lab|
+| **Attribute**     | **Value**                 | **Context**                                       |
+| ----------------- | ------------------------- | ------------------------------------------------- |
+| **Source Path**   | `/mnt/data/immich-photos` | Local HDD storage for originals                   |
+| **Backup Tool**   | `Rclone`                  | Command-line program to manage cloud storage      |
+| **Remote Target** | `Backblaze B2 / AWS S3`   | Example offsite "Cold Storage" provider           |
+| **Encryption**    | `Rclone Crypt`            | Client-side encryption before data leaves the lab |
 
-### 3. Rclone Installation and Remote Configuration
+## 3. Rclone Installation and Remote Configuration
 
 Rclone acts as the "bridge" between your local HDD and the cloud.
 
@@ -32,7 +32,7 @@ sudo apt install rclone -y
 3. **Critical:** Create a second "Crypt" remote that wraps your primary remote. This ensures that even if the cloud provider is hacked, your photos are unreadable without your local password.
     
 
-### 4. Automation via Cron Job
+## 4. Automation via Cron Job
 
 Backups should be "Set and Forget" to ensure consistency.
 
@@ -61,7 +61,7 @@ rclone sync /mnt/data/immich-photos encrypted_remote:backup-bucket --progress
     `00 02 * * * /bin/bash /home/drew/scripts/offsite-backup.sh`
     
 
-### 5. Post-SOP Verification
+## 5. Post-SOP Verification
 
 - **Manual Execution:** Run the script manually (`./offsite-backup.sh`) and verify files appear in your cloud provider’s web UI as encrypted "gibberish."
     

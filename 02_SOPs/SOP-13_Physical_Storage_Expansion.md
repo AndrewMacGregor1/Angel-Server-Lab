@@ -1,18 +1,18 @@
-### 1. Purpose
+## 1. Purpose
 
 This procedure defines the initialization of a secondary physical Hard Disk Drive (HDD) within Proxmox and the implementation of a **Virtio-FS Directory Bridge** to the Ubuntu Server guest OS. This method allows the Proxmox host to manage the physical health of the drive while providing the VM high-speed, shared access to data volumes without the overhead of virtual disk images.
 
-### 2. Lab Environment Reference
+## 2. Lab Environment Reference
 
-|**Attribute**|**Value**|**Context**|
-|---|---|---|
-|**Physical Disk**|500GB HDD|WDC/ST Secondary Drive|
-|**Storage Name**|`angel-data`|Logical Proxmox Storage ID|
-|**Host Path**|`/mnt/pve/angel-data`|Physical mount point on Proxmox|
-|**VM Mount**|`/mnt/data`|Path inside Ubuntu VM (`.151`)|
-|**Bridge Tech**|`Virtio-FS`|High-performance host-to-guest directory sharing|
+| **Attribute**     | **Value**             | **Context**                                      |
+| ----------------- | --------------------- | ------------------------------------------------ |
+| **Physical Disk** | 500GB HDD             | WDC/ST Secondary Drive                           |
+| **Storage Name**  | `angel-data`          | Logical Proxmox Storage ID                       |
+| **Host Path**     | `/mnt/pve/angel-data` | Physical mount point on Proxmox                  |
+| **VM Mount**      | `/mnt/data`           | Path inside Ubuntu VM (`.151`)                   |
+| **Bridge Tech**   | `Virtio-FS`           | High-performance host-to-guest directory sharing |
 
-### 3. Physical Initialization (Proxmox UI)
+## 3. Physical Initialization (Proxmox UI)
 
 1. **Wipe Disk:** Navigate to **angel-server (node) > Disks**. Select the 500GB drive and click **Wipe Disk**.
     
@@ -29,7 +29,7 @@ This procedure defines the initialization of a secondary physical Hard Disk Driv
     - _Proxmox will now mount this drive at `/mnt/pve/angel-data`_.
         
 
-### 4. Virtio-FS Bridge Configuration
+## 4. Virtio-FS Bridge Configuration
 
 Instead of adding a "Hard Drive" to the VM, we add a "Directory Mapping" to the Datacenter.
 
@@ -55,7 +55,7 @@ Instead of adding a "Hard Drive" to the VM, we add a "Directory Mapping" to the 
 4. **Reboot the VM** to "plug in" the new virtual device.
     
 
-### 5. Guest OS Integration (Ubuntu CLI)
+## 5. Guest OS Integration (Ubuntu CLI)
 
 **Step 1: Create the Mount Point**
 
@@ -75,7 +75,7 @@ To ensure the bridge mounts automatically after a reboot:
     `angel_data_bridge /mnt/data virtiofs defaults 0 0`
     
 
-### 6. Post-SOP Verification
+## 6. Post-SOP Verification
 
 - **Mount Test:** Run `sudo mount -a`.
     

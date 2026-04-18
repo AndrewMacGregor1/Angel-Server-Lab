@@ -1,19 +1,19 @@
-### 1. Purpose
+## 1. Purpose
 
 This procedure defines the deployment of **Immich** as a self-hosted alternative to iCloud and Google Photos. By utilizing the secondary 500GB HDD for the "Upload" directory, the primary 128GB SSD is protected from storage saturation while maintaining high performance for the application database.
 
-### 2. Lab Environment Reference
+## 2. Lab Environment Reference
 
 The following values align with the **Angel Server** Docker standards.
 
-|**Attribute**|**Value**|**Context**|
-|---|---|---|
-|**App Root**|`/opt/docker/immich`|Configuration and Docker Compose root|
-|**Library Root**|`/mnt/data/immich-photos`|High-capacity HDD storage for originals|
-|**Internal Port**|`2283`|Default Immich Web UI port|
-|**Admin IP**|`192.168.0.151`|Static Ubuntu Node IP|
+| **Attribute**     | **Value**                 | **Context**                             |
+| ----------------- | ------------------------- | --------------------------------------- |
+| **App Root**      | `/opt/docker/immich`      | Configuration and Docker Compose root   |
+| **Library Root**  | `/mnt/data/immich-photos` | High-capacity HDD storage for originals |
+| **Internal Port** | `2283`                    | Default Immich Web UI port              |
+| **Admin IP**      | `192.168.0.151`           | Static Ubuntu Node IP                   |
 
-### 3. Directory and Environment Preparation
+## 3. Directory and Environment Preparation
 
 Immich requires specific folders on both the SSD (for speed) and the HDD (for capacity).
 
@@ -39,7 +39,7 @@ wget -O .env https://github.com/immich-app/immich/releases/latest/download/examp
 
 _Note: Edit the `.env` file to set your `UPLOAD_LOCATION=/mnt/data/immich-photos`._
 
-### 4. Deployment via Docker Compose
+## 4. Deployment via Docker Compose
 
 Immich uses a multi-container stack including PostgreSQL (Database) and Redis (Cache).
 
@@ -55,7 +55,7 @@ wget -O docker-compose.yml https://github.com/immich-app/immich/releases/latest/
 docker compose up -d
 ```
 
-### 5. Edge Network Configuration
+## 5. Edge Network Configuration
 
 To access Immich securely via your custom domain (`angelserver.live`), we must update the Reverse Proxy.
 
@@ -70,7 +70,7 @@ To access Immich securely via your custom domain (`angelserver.live`), we must u
 3. **SSL:** Select the Cloudflare Wildcard certificate and enable **Websockets Support**.
     
 
-### 6. Post-SOP Verification
+## 6. Post-SOP Verification
 
 - **Container Health:** Run `docker ps` to verify five Immich-related containers are `Up`.
     

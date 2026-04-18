@@ -1,8 +1,8 @@
-### 1. Purpose
+## 1. Purpose
 
 Establish a high-performance media server using an **Unprivileged LXC**. By mapping the **Intel iGPU** and utilizing **UID mapping** to the NFS Master Share, we enable **Intel QuickSync (QSV)** for 4K transcoding while maintaining seamless access to the central media library.
 
-### 2. Lab Environment Reference
+## 2. Lab Environment Reference
 
 | **Attribute**    | **Value**                   | **Context**                    |
 | ---------------- | --------------------------- | ------------------------------ |
@@ -13,7 +13,7 @@ Establish a high-performance media server using an **Unprivileged LXC**. By mapp
 
 ---
 
-### 3. Step 1: Host & ID Preparation (Proxmox Node)
+## 3. Step 1: Host & ID Preparation (Proxmox Node)
 
 1. **Install Drivers:** `apt update && apt install -y intel-media-va-driver-non-free intel-gpu-tools`.
     
@@ -24,7 +24,7 @@ Establish a high-performance media server using an **Unprivileged LXC**. By mapp
 
 ---
 
-### 4. Step 2: Create & Map the LXC
+## 4. Step 2: Create & Map the LXC
 
 1. **Create CT:** Use `ubuntu-24.04-standard`. **Unprivileged: Checked**.
     
@@ -50,7 +50,7 @@ Establish a high-performance media server using an **Unprivileged LXC**. By mapp
 
 ---
 
-### 5. Step 3: Software & Acceleration (Inside LXC 102)
+## 5. Step 3: Software & Acceleration (Inside LXC 102)
 
 1. **Install Jellyfin:** `curl https://repo.jellyfin.org/install-debuntu.sh | bash`.
     

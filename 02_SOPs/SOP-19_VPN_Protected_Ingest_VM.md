@@ -1,8 +1,8 @@
-### 1. Purpose
+## 1. Purpose
 
 This procedure establishes a dedicated **Ubuntu VM** for media ingestion. By utilizing **Gluetun** as a sidecar container, all torrent traffic is forced through an encrypted VPN tunnel. If the VPN connection drops, the "Kill-Switch" logic instantly severs the internet connection to prevent your home IP from being exposed.
 
-### 2. Lab Environment Reference
+## 2. Lab Environment Reference
 
 |**Attribute**|**Value**|**Context**|
 |---|---|---|
@@ -13,7 +13,7 @@ This procedure establishes a dedicated **Ubuntu VM** for media ingestion. By uti
 
 ---
 
-### 3. Step 1: Create the Ingest VM (Proxmox)
+## 3. Step 1: Create the Ingest VM (Proxmox)
 
 1. **Create VM:** Follow **SOP-04** to provision a minimal Ubuntu 24.04 VM.
     
@@ -28,7 +28,7 @@ This procedure establishes a dedicated **Ubuntu VM** for media ingestion. By uti
 
 ---
 
-### 4. Step 2: Configure Gluetun & qBittorrent
+## 4. Step 2: Configure Gluetun & qBittorrent
 
 We will use a single `docker-compose.yml` file where qBittorrent "piggybacks" on Gluetun's network.
 
@@ -82,7 +82,7 @@ services:
 
 ---
 
-### 5. Step 3: Deployment & The "IP Test"
+## 5. Step 3: Deployment & The "IP Test"
 
 1. **Launch:** `docker compose up -d`
     
@@ -98,7 +98,7 @@ services:
 
 ---
 
-### 6. Step 4: Final Permissions
+## 6. Step 4: Final Permissions
 
 Ensure the qBittorrent user can write to your HDD folder:
 

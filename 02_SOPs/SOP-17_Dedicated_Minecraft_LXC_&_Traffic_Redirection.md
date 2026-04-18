@@ -1,8 +1,8 @@
-### 1. Purpose
+## 1. Purpose
 
 This procedure migrates the Minecraft Bedrock server from a VM to a standalone **Unprivileged Proxmox LXC**. This setup optimizes resource usage and utilizes **NFS-based shared storage** with **UID mapping** to allow a sandboxed container to read/write to the central HDD.
 
-### 2. Lab Environment Reference
+## 2. Lab Environment Reference
 
 | **Attribute**  | **Value**                 | **Context**                    |
 | -------------- | ------------------------- | ------------------------------ |
@@ -12,7 +12,7 @@ This procedure migrates the Minecraft Bedrock server from a VM to a standalone *
 | **Port**       | `19132 (UDP)`             | Bedrock Default                |
 
 ---
-### 3. Step 1: Storage Preparation (Ubuntu VM .151)
+## 3. Step 1: Storage Preparation (Ubuntu VM .151)
 
 1. **Stop Old Service:** Run `docker compose down` in the old VM directory to prevent data corruption.
     
@@ -27,7 +27,7 @@ This procedure migrates the Minecraft Bedrock server from a VM to a standalone *
 
 ---
 
-### 4. Step 2: Bridge the Storage (Proxmox Host)
+## 4. Step 2: Bridge the Storage (Proxmox Host)
 
 1. **Mount NFS:** Add the following to `/etc/fstab` on the Proxmox Host:
     
@@ -38,7 +38,7 @@ This procedure migrates the Minecraft Bedrock server from a VM to a standalone *
 
 ---
 
-### 5. Step 3: Create & Map the LXC
+## 5. Step 3: Create & Map the LXC
 
 1. **Create CT:** Use `ubuntu-24.04-standard`. Ensure **Unprivileged** is checked.
     
@@ -67,7 +67,7 @@ This procedure migrates the Minecraft Bedrock server from a VM to a standalone *
 
 ---
 
-### 6. Step 4: Service Deployment (Inside LXC 101)
+## 6. Step 4: Service Deployment (Inside LXC 101)
 
 1. **Set Network to DHCP:** In Proxmox, set the LXC network to DHCP so the router recognizes the MAC reservation.
     
@@ -94,7 +94,7 @@ This procedure migrates the Minecraft Bedrock server from a VM to a standalone *
 
 ---
 
-### 7. Step 5: Network & Edge Config
+## 7. Step 5: Network & Edge Config
 
 1. **Static Reservation:** Use the LXC's MAC address to reserve `192.168.0.160` in the Cox Router.
     
@@ -105,7 +105,7 @@ This procedure migrates the Minecraft Bedrock server from a VM to a standalone *
 
 ---
 
-### 8. Post-SOP Verification
+## 8. Post-SOP Verification
 
 - **Internal Check:** Run `ls -ln /data` inside the LXC; files must show owner **1000**.
     
