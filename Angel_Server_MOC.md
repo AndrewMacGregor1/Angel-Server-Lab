@@ -28,7 +28,6 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-17: Dedicated Minecraft LXC & Traffic Redirection ](02_SOPs/SOP-17_Dedicated_Minecraft_LXC_&_Traffic_Redirection.md)** — Moves Minecraft container to an independent LXC and sets up drive sharing with NFS and bind mounts.
 - **[SOP-18: Jellyfin Media Server LXC + Hardware Transcoding](02_SOPs/SOP-18_Jellyfin_Media_Server_LXC_+_Hardware_Transcoding.md)** — Setting up jellyfin in it's own independent LXC.
 - **[SOP-19: VPN Protected Ingest VM](02_SOPs/SOP-19_VPN_Protected_Ingest_VM.md)** —  Setting up a VM for torrenting with a kill switch.
-- **[SOP-20: Catalyst 2960 Configuration](02_SOPs/SOP-20_Catalyst_2960_Configuration.md)** —  Basic Layer 2 configuration of new Cisco Catalyst switch.
 
 ## 3. Network Topology & Infrastructure
 

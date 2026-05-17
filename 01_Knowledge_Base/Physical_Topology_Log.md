@@ -1,43 +1,48 @@
-## 1. Site Survey & Infrastructure Constraints
+## 1. Site Survey & The "Basement Problem"
 
-This section documents the physical environment and the logical solutions implemented to overcome onsite networking limitations.
+This is basically just keeping track of why I had to run 100ft of cable in the first place.
 
-- **Constraint:** Existing interior coax ports and legacy wiring were found to be non-functional or unreliable for high-bandwidth server traffic.
+- **The Issue:** The old coax ports in the walls are dead, and the wiring is complicated.
     
-- **Environmental Gap:** The primary gateway is located in the basement, while the server node is situated in a third-floor workspace.
+- **The Gap:** My main internet comes in through the basement, but my server and my desk are all the way up on the third floor. I also just want to be able to admire my beautiful lab from my bedroom.
     
-- **Deployment Solution:** A dedicated 100ft Category-rated Ethernet run was deployed to establish a direct, low-latency path between the node and the gateway.
+- **The Fix:** I ran a 100ft Cat6 cable to act as the "Backbone Trunk." Instead of just plugging into the server, it now connects the basement gateway to my Cisco switch upstairs so I can handle all my VLANs.
 
-## 2. Layer 1 Component Specifications
+## 2. The Gear (Layer 1)
 
-The following physical components comprise the Layer 1 foundation of the Angel Server lab.
+These are the actual physical boxes making the lab work right now.
 
-| **Component**     | **Specification**            | **Role**                        |
-| ----------------- | ---------------------------- | ------------------------------- |
-| **Primary Media** | 100ft Cat5e/Cat6 Patch Cable | Physical Data Path              |
-| **Gateway**       | Cox Panoramic Box            | Primary ISP Layer 3 Termination |
-| **Server Node**   | Dell OptiPlex 9020 SFF       | Physical Hypervisor Host        |
+| **Component** | **What it is**               | **What it does**                                              |
+| ------------- | ---------------------------- | ------------------------------------------------------------- |
+| **Modem**     | Cox Panoramic (Bridge Mode)  | Just passes the raw internet signal to my router.             |
+| **Router**    | Ubiquiti Cloud Gateway Ultra | The "brain"—handles all my firewall rules and VLANs.          |
+| **The Cable** | 100ft Cat6 Patch Cable       | The main line running from the basement to the 3rd floor.     |
+| **Switch**    | Cisco Catalyst 2960          | My upstairs "distributor" for the server and AP.              |
+| **APs**       | 2x Ubiquiti nanoHD           | Gives me Wi-Fi coverage for both my regular and VPN networks. |
+| **Server**    | Dell OptiPlex 9020 SFF       | The actual workhorse running all my LXCs and VMs.             |
+|               |                              |                                                               |
 
-> **Note:** "If the cable is bad, the config doesn't matter." Physical layer integrity is the first priority in troubleshooting.
+## 3. How I Ran the Cables
 
-## 3. Cable Routing & Pathing
+I had to be pretty specific with this run so it didn't look like a mess or become a trip hazard.
 
-The cable run follows a documented path to ensure safety and signal integrity over the 100ft distance.
-
-1. **Origin:** Dell OptiPlex 9020 NIC.
+1. **Start:** Plugs into **Port 1** of the Ubiquiti Gateway down in the basement.
     
-2. **Transition:** Secured along hallway walls using adhesive cable clips to prevent trip hazards.
+2. **The Climb:** I ran it across the kitchen ceiling and through the service hole I found behind the fridge.
     
-3. **Vertical Drop:** Routed through a banister and across the kitchen ceiling to a service penetration located behind the refrigerator.
+3. **The End Point:** It terminates into **Gigabit Port 0/1** on the Cisco switch upstairs.
     
-4. **Termination:** Connected directly to **Port 1** of the Cox Gateway in the basement.
+4. **Final Hops:** * **Port f0/1:** A short cable goes right into the Dell OptiPlex.
+    
+    - **Port g0/2:** This powers the upstairs AP so I get a good signal in my room.
+        
 
-## 4. Maintenance & Connectivity Verification
+## 4. Maintenance & "Is it working?"
 
-Standard verification tests were performed to ensure the physical run supports the required data rates.
+Just a log of when I added stuff and confirmed it wasn't broken.
 
-- **2026-02-08:** Physical deployment completed; verified "Link Up" status and 1Gbps negotiation on the host NIC.
+- **2026-03-15:** Got the Ubiquiti Gateway online. Confirmed it was pulling an IP and everything was reachable.
     
-- **Functional Testing:** Executed `ping -c 4 google.com` to confirm successful data flow across the 100ft run.
+- **2026-03-16:** Hooked up the Cisco 2960. Verified that "Trunking" is working, which lets both VLAN 1 and VLAN 10 travel over that 100ft cable.
     
-- **Signal Integrity:** Confirmed the run is well within the 100-meter (328ft) maximum limit for Ethernet to prevent attenuation.
+- **Current Status:** Everything is hitting high speeds. The 100ft run is well under the limit for Cat6, so no signal lag.
