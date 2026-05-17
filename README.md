@@ -6,7 +6,7 @@ Hello! My name is Drew, and this repo is for my home lab—the **Angel Server**,
 
 This is a diagram I made on draw.io to give you an idea of what my home lab looks like at the moment:
 
-![Network Topology](./assets/Final.drawio.png)
+![Network Topology](./assets/Final.drawio.jpg)
 
 
 ## 3. Technical Stack
