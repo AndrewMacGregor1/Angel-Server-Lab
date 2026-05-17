@@ -29,7 +29,6 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-18: Jellyfin Media Server LXC + Hardware Transcoding](02_SOPs/SOP-18_Jellyfin_Media_Server_LXC_+_Hardware_Transcoding.md)** — Setting up jellyfin in it's own independent LXC.
 - **[SOP-19: VPN Protected Ingest VM](02_SOPs/SOP-19_VPN_Protected_Ingest_VM.md)** —  Setting up a VM for torrenting with a kill switch.
 - **[SOP-20: Catalyst 2960 Configuration](02_SOPs/SOP-20_Catalyst_2960_Configuration.md)** —  Basic Layer 2 configuration of new Cisco Catalyst switch.
-- **[SOP-21: NFS Storage Bridge & N100 Service Deployment](02_SOPs/SOP-21_NFS_Storage_Bridge_&_N100_Service_Deployment.md)** —  Establishes a NFS bridge between the Dell OptiPlex and the new n100 mini PC.
 
 ## 3. Network Topology & Infrastructure
 
