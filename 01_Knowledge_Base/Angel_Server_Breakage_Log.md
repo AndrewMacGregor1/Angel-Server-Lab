@@ -1,153 +1,29 @@
+This file is the main tracker for every time the home lab broke, threw errors, or acted up while being built. Instead of making this document super long and messy, the actual root causes and steps to fix them are broken out by topic into the `Lessons_Learned/` folder.
 
-This document tracks real technical issues encountered during the deployment of the Angel Server home lab. Each incident is assigned an **INC identifier** for easier referencing across SOPs, commits, and troubleshooting documentation.
+## 1. Incident Index
 
----
+| **ID**      | **What Broke / The Symptom**                                                                    | **Where It Happened**                                                                                                                     | **How It Was Fixed (Link)**                                                                          |
+| ----------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **INC-001** | Ubuntu VM stuck on first reboot because the installer ISO was still locked in the virtual drive | **[SOP-04: Ubuntu Provisioning](02_SOPs/SOP-04_Ubuntu_Server_Provisioning.md)**                                                           | **[Virtualization & Storage Manual](01_Knowledge_Base/Lessons_Learned/Virtualization_&_Storage.md)** |
+| **INC-002** | Docker forced me to use `sudo` for every single command even though it was installed            | **[SOP-07: Containerization](02_SOPs/SOP-07_Containerization_(Docker_&_Portainer).md)**                                                   | **[Docker & OS Admin Manual](01_Knowledge_Base/Lessons_Learned/Docker_&_OS_Administration.md)**      |
+| **INC-003** | Cox router settings locked me out of editing Port Forwarding rules from the web browser         | **[SOP-20: Edge Gateway Migration ISP Bridge Mode](02_SOPs/SOP-20_Edge_Gateway_Migration_&_ISP_Bridge_Mode.md)**                          | **[Docker & OS Admin Manual](01_Knowledge_Base/Lessons_Learned/Docker_&_OS_Administration.md)**      |
+| **INC-004** | ISP blocked Port 80, which completely broke standard Let's Encrypt SSL certificates             | **[SOP-08: Reverse Proxy Deployment](02_SOPs/SOP-08_Reverse_Proxy_Deployment_(Nginx_Proxy_Manager).md)**                                  | **[Edge & L2 Networking Manual](01_Knowledge_Base/Lessons_Learned/Edge_&_L2_Networking)**            |
+| **INC-005** | Friends couldn't connect to the Minecraft server because Cloudflare doesn't proxy UDP traffic   | **[SOP-10: Minecraft Bedrock Edition](02_SOPs/SOP-10_Minecraft_Bedrock_Edition_Deployment.md)**                                           | **[Edge & L2 Networking Manual](01_Knowledge_Base/Lessons_Learned/Edge_&_L2_Networking)**            |
+| **INC-006** | Tailscale gave an "Unpaid Account" error because a school email triggered a user limit conflict | **[SOP-11: Secure Remote Access](02_SOPs/SOP-11_Secure_Remote_Access.md)**                                                                | **[Edge & L2 Networking Manual](01_Knowledge_Base/Lessons_Learned/Edge_&_L2_Networking)**            |
+| **INC-007** | Windows PowerShell didn't have the native `ssh-copy-id` tool to easily push SSH keys            | **[SOP-12: SSH Key-Based Authentication](02_SOPs/SOP-12_SSH_Key-Based_Authentication.md)**                                                | **[Docker & OS Admin Manual](01_Knowledge_Base/Lessons_Learned/Docker_&_OS_Administration.md)**      |
+| **INC-008** | PowerShell threw a "command not recognized" error when trying to run Rclone                     | **[SOP-15: Automated Offsite Redundancy](02_SOPs/SOP-15_Automated_Offsite_Data_Redundancy.md)**                                           | **[Docker & OS Admin Manual](01_Knowledge_Base/Lessons_Learned/Docker_&_OS_Administration.md)**      |
+| **INC-009** | Windows Terminal randomly closed out completely during the Rclone browser login step            | **[SOP-16: Automated OS & Configuration Redundancy](02_SOPs/SOP-16_Automated_OS_&_Configuration_Redundancy)**                             | **[Docker & OS Admin Manual](01_Knowledge_Base/Lessons_Learned/Docker_&_OS_Administration.md)**      |
+| **INC-010** | NFS share was mounted inside the LXC, but kept throwing "Permission Denied" errors              | **[SOP-17: Dedicated Minecraft LXC & Traffic Redirection ](02_SOPs/SOP-17_Dedicated_Minecraft_LXC_&_Traffic_Redirection.md)**             | **[Virtualization & Storage Manual](01_Knowledge_Base/Lessons_Learned/Virtualization_&_Storage.md)** |
+| **INC-011** | Minecraft booted into a totally blank new world because Docker ran before the NFS share loaded  | **[SOP-17: Dedicated Minecraft LXC & Traffic Redirection ](02_SOPs/SOP-17_Dedicated_Minecraft_LXC_&_Traffic_Redirection.md)**             | **[Virtualization & Storage Manual](01_Knowledge_Base/Lessons_Learned/Virtualization_&_Storage.md)** |
+| **INC-012** | Proxmox completely froze up during a reboot because it got stuck waiting on an NFS path         | **[SOP-17: Dedicated Minecraft LXC & Traffic Redirection ](02_SOPs/SOP-17_Dedicated_Minecraft_LXC_&_Traffic_Redirection.md)**             | **[Virtualization & Storage Manual](01_Knowledge_Base/Lessons_Learned/Virtualization_&_Storage.md)** |
+| **INC-013** | The new Minecraft LXC container was completely invisible inside the router port-forwarding list | **[SOP-21 Cisco Layer 2 VLAN Trunking & Ubiquiti AP Deployment](02_SOPs/SOP-21_Cisco_Layer_2_VLAN_Trunking_&_Ubiquiti_AP_Deployment.md)** | **[Edge & L2 Networking Manual](01_Knowledge_Base/Lessons_Learned/Edge_&_L2_Networking)**            |
 
-## Incident Index
+## 2. Where To Find The Fixes
 
-```
-INC-001 – ISO mount lock during VM provisioning  
-INC-002 – Docker user permission issue  
-INC-003 – Router firmware blocking port forwarding configuration  
-INC-004 – ISP port 80 filtering preventing HTTP challenge  
-INC-005 – Cloudflare proxy blocking Minecraft server
-INC-006 – Tailnet "Unpaid" error due to organizational domain conflict
-INC-007 – Windows PowerShell missing native 'ssh-copy-id' utility
-INC-008 – Rclone command "not recognized" in PowerShell
-INC-009 – Windows terminal closed during Rclone authorization
-INC-010 – NFS "Permission Denied" on unprivileged LXC mount 
-INC-011 – Minecraft world reset (empty folder) on first LXC boot 
-INC-012 – Proxmox boot hang waiting for NFS mount 
-INC-013 – Cox App "Device Ghosting" (LXC not appearing for port forward)
+All the troubleshooting notes, explanations, and long-term takeaways are grouped by topic inside these files:
 
-```
-
----
-## Phase 1 – Infrastructure (Provisioning)
-
-| **Date**       | **The "Break"**                                                         | **Root Cause**                                                                   | **The Fix**                                                                                       | **Video Segment**  |
-| -------------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------ |
-| **2026-02-15** | **INC-001 – Ubuntu VM "Failed unmounting cdrom.mount" on first reboot** | **ISO Lock:** The virtual CD/DVD drive was still holding the installation media. | **Post-Install Cleanup:** In Proxmox, set the VM Hardware CD/DVD drive to "Do not use any media." | Provisioning Phase |
-
----
-## Phase 2 – Containerization (Docker & Portainer)
-
-| **Date**       | **The "Break"**                                                              | **Root Cause**                                                                                                                                  | **The Fix**                                                                                                             | **Video Segment**      |
-| -------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| **2026-02-28** | **INC-002 – Docker commands required `sudo` despite Docker being installed** | **User Permission Issue:** The primary user had not yet been added to the `docker` group, meaning Docker commands required elevated privileges. | Added the user to the Docker group using `sudo usermod -aG docker $USER` and logged out/in to refresh group membership. | Containerization Phase |
-
----
-
-## Phase 3 – Edge Networking (Nginx Proxy Manager & DNS)
-
-| **Date** | **The "Break"** | **Root Cause** | **The Fix** | **Video Segment** |
-|----------|-----------------|---------------|-------------|-------------------|
-| **2026-03-01** | **INC-003 – Router Web UI blocking Port Forwarding settings** | **Firmware Lock:** Cox "Panoramic" routers disable local web UI management for ports once they sync with the ISP cloud. | **App-Web Hybrid:** Used the Web UI for DHCP Reservation (MAC binding) and the mobile app for the actual Port Forwarding rules. | Edge Networking Phase |
-| **2026-03-01** | **INC-004 – Port 80 "Closed" despite active port forward** | **ISP Filtering:** Cox residential gateways often block Port 80, preventing standard Let's Encrypt HTTP-01 challenges. | **DNS-01 Challenge:** Migrated DNS management to Cloudflare and used an API token to verify domain ownership via DNS records instead of web traffic. | Edge Networking Phase |
-
----
-## Phase 4 – Service Deployment (Minecraft Server)
-
-| **Date**       | **The "Break"**                                                      | **Root Cause**                                                                                                                                                                                                                           | **The Fix**                                                                                                                                                                       | **Video Segment**      |
-| -------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| **2026-03-10** | **INC-005 – Minecraft server unreachable despite container running** | **Cloudflare Proxy Conflict:** The root DNS record (`angelserver.live`) was set to **Proxied (orange cloud)**. Cloudflare only proxies HTTP/HTTPS traffic and does not support UDP game traffic such as Minecraft Bedrock (`19132/udp`). | **DNS Only Mode:** Disabled Cloudflare proxy for the `angelserver.live` A record by switching it to **DNS Only (grey cloud)**, allowing direct connections to the home server IP. | Game Server Deployment |
-|                |                                                                      |                                                                                                                                                                                                                                          |                                                                                                                                                                                   |                        |
-
----
-## Phase 5 – Remote Access & Hardening (Episode 04)
-
-| **Date**       | **The "Break"**                                                     | **Root Cause**                                                                                                                                       | **The Fix**                                                                                                            | **Video Segment**   |
-| -------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| **2026-03-11** | **INC-006 – Tailscale "Your account is unpaid" / User limit error** | **Domain Conflict:** Using a VCCS student email caused Tailscale to attempt to join a shared organizational tailnet that had reached its seat limit. | **Personal Pivot:** Migrated to a personal email/GitHub account to establish a private "Personal" tailnet.             | Remote Access Phase |
-| 2026-03-11     | **INC-007 – `ssh-copy-id` missing on Windows**                      | **Utility Parity:** The standard Windows OpenSSH client does not include the `ssh-copy-id` script found in Linux/macOS.                              | **Manual Pipe:** Used a PowerShell one-liner to manually append the public key to the server's `authorized_keys` file. | Remote Access Phase |
-|                |                                                                     |                                                                                                                                                      |                                                                                                                        |                     |
-___
-## Phase 6 – Disaster Recovery & Automation (SOP-15/16)
-
-| **Date**       | **The "Break"**                                                   | **Root Cause**                                                                                                                                                              | **The Fix**                                                                                                                          | **Video Segment** |
-| -------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| **2026-03-22** | **INC-008 – Rclone command "not recognized" in PowerShell**       | **Nested Folder Structure:** The Rclone zip extracts into a folder containing _another_ folder of the same name. The `.exe` was one level deeper than the active directory. | **Directory Navigation:** Used `cd` to enter the inner versioned folder before running the `./rclone` command.                       | Disaster Recovery |
-| **2026-03-22** | **INC-009 – Windows terminal closed during Rclone authorization** | **OS Resource Spike/Crash:** The browser "Success" redirect triggered a desktop environment refresh or minor crash on the Windows host, closing active SSH sessions.        | **Session Persistence:** Re-established SSH to the OptiPlex (which remained running). Re-ran the Rclone config to get a fresh token. | Disaster Recovery |
-
-___
-## Phase 7 – Advanced Storage & Virtualization (LXC Migration)
-
-| **Date**       | **The "Break"**                                                            | **Root Cause**                                                                                                                        | **The Fix**                                                                                                                                    | **Video Segment** |
-| -------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| **2026-03-30** | **INC-010 – NFS mount visible but "Permission Denied" inside LXC**         | **UID Mismatch:** Unprivileged LXCs shift UIDs by 100,000. The LXC "root" was seen by the NFS server as an unknown high-number user.  | **ID Mapping:** Edited `/etc/pve/lxc/101.conf` to map UID 1000 to 1000 and updated `/etc/subuid` to allow the mapping.                         | LXC Migration     |
-| **2026-03-30** | **INC-011 – Minecraft started a new world instead of loading the old one** | **The "Empty Rug" Trap:** The LXC started before the NFS share was mounted, so Docker created new data in the empty mount point.      | **Startup Delay:** Set the Ubuntu VM (NFS Server) to Start Order 1 with a 60s delay, and the LXC to Start Order 2.                             | LXC Migration     |
-| **2026-03-30** | **INC-012 – Proxmox Host hung during reboot**                              | **NFS Dependency:** The Host tried to mount the VM's NFS share before the network/VM was up, causing a boot-time timeout.             | **fstab Hardening:** Added `_netdev` and `soft` options to the NFS line in `/etc/fstab` to allow the boot to continue if the share is missing. | LXC Migration     |
-| **2026-03-30** | **INC-013 – Cox App refused to show "minecraft-lxc" for port forwarding**  | **ARP/DHCP Silence:** The router hadn't seen a DHCP request from the LXC's MAC address, so it assumed the device was offline/ghosted. | **The "Wake Up" Call:** Switched LXC to DHCP temporarily and used `arping` and `curl` to force the router to register the active connection.   | Edge Networking   |
-# Lessons Learned
-
-The following observations were extracted from the incidents above and represent general operational lessons for future deployments.
-
----
-## Infrastructure Lessons
-
-- **ISO Media Priority:** Hypervisors often attempt to boot from mounted installation media before local disks. Always unmount ISO files after the first successful OS installation to prevent boot issues.  
-- **False Boot Errors:** Some Linux shutdown or reboot errors can simply indicate that virtual hardware is still attached. Checking the hypervisor configuration often resolves these messages quickly.
-
----
-## Containerization Lessons
-
-- **Docker Permission Gotcha:** After installing Docker, commands may still require `sudo` until the user is added to the `docker` group and the session is refreshed. Always verify group membership before troubleshooting Docker itself.
-
----
-## Networking Lessons
-
-- **DHCP vs Static Visibility:** ISP routers may not properly display devices using manually assigned static IP addresses. Always confirm connectivity via SSH before assuming a device is offline.
-
-- **The "Ping Wake-Up":** If a reserved device does not appear in a router’s management interface, sending a `ping` to the gateway (`192.168.0.1`) can force the router to recognize the device.
-
-- **Residential Port Filtering:** Never assume Port 80 is open simply because a port forward exists. Residential ISPs frequently block Port 80 at the network level.
-
-- **DNS-01 Advantage:** DNS-01 challenges allow SSL certificate issuance without exposing web ports, making them ideal for home lab environments.
-
-- **Cloudflare Proxy Limitations:** Cloudflare only proxies HTTP/HTTPS traffic. Services relying on UDP or non-web protocols (such as Minecraft servers) must use **DNS-only mode** for direct client connections.
-___
-### **Remote Access & Identity Lessons**
-
-- **SaaS Domain Multi-Tenancy**: Many SaaS platforms (like Tailscale) use the email domain (e.g., `@email.vccs.edu`) to automatically group users into "Organizations."
-
-- **Personal vs. Institutional Accounts**: For home lab infrastructure, personal identity providers (GitHub, personal Gmail) are preferred over institutional accounts to avoid seat-limit conflicts and ensure long-term administrative control.
-
-- **Force Re-authentication**: When switching between Tailscale accounts on a Linux host, use the `--force-reauth` flag to ensure the node's key is correctly associated with the new tailnet.
-
-- **Utility Parity across OS:** Do not assume standard Linux/macOS scripts (like `ssh-copy-id`) exist on Windows PowerShell; always verify your toolchain on all admin devices.
-
-- **Manual Identity Deployment:** In the absence of automated scripts, a PowerShell pipe (`type | ssh`) is a reliable way to deploy public keys while maintaining strict file permissions (`chmod 600`) on the host.
-
-- **Redundant Access Points:** Always verify that at least two independent devices (e.g., MacBook via Tailscale and Main PC via LAN) have working SSH keys before disabling password authentication to prevent a permanent lockout.
-___
-### **Disaster Recovery & Tooling Lessons**
-
-- **The "Double-Folder" Zip Trap:** Many Windows zip utilities create a top-level container folder. Always verify the location of the `.exe` with `ls` or `dir` before assuming a path is correct.
-
-- **Token One-Time Use:** Authentication tokens provided via browser redirects are often one-time use. If the terminal session closes before the token is pasted, the process must be restarted to generate a new valid handshake.
-
-- **Snapshot vs. Backup Utility:** Snapshots are for "Undo" (fast, local); Backups are for "Disaster" (slow, offsite). Keeping one stable snapshot is an efficient middle ground for active development.
-
-- **Data Exclusion in VM Images:** To prevent ballooning backup sizes, always exclude bulk data drives (HDDs) from Proxmox VM backups if that data is already being synced via other methods (Rclone).
-
-### **Advanced Virtualization Lessons**
-
-- **The Unprivileged "Wall":** Unprivileged LXCs are safer but require manual UID/GID mapping to interact with host-mounted storage. Always verify `ls -ln` output to see raw numeric IDs when troubleshooting.
+-  **[Virtualization & Storage Manual](01_Knowledge_Base/Lessons_Learned/Virtualization_&_Storage.md)** - (Fixing ISO locks, mount points, and NFS boot hangs).
     
-- **Mount Point Overlays:** Mounting a drive over a non-empty directory "hides" the old files. Always ensure your mount point is empty before attaching storage to avoid "Ghost Files" eating SSD space.
+-  **[Edge & L2 Networking Manual](01_Knowledge_Base/Lessons_Learned/Edge_&_L2_Networking)** - (Fixing ISP blocks, Cloudflare settings, and ghost devices on the router).
     
-- **Boot Sequencing Matters:** In a decoupled architecture (Storage VM + App LXC), the storage provider **must** have a startup priority and delay to ensure data is available before applications request it.
-    
-
-### **Storage Networking Lessons**
-
-- **NFS Versioning:** When mixing different Linux kernels (Proxmox Host vs. Ubuntu VM), explicitly forcing `nfsvers=3` in `fstab` can resolve mounting handshake failures.
-    
-- **Master Share Efficiency:** Exporting a parent "Master" directory (e.g., `/mnt/data`) is more scalable than individual micro-shares. It allows you to add new sub-folders for new LXCs without editing the VM's `/etc/exports` every time.
-    
-
-### **ISP Hardware Lessons**
-
-- **DHCP Handshake over Static:** For managed ISP routers (Cox/Xfinity), using a **DHCP Reservation** on the router and setting the client to **DHCP** is more reliable for device visibility than setting a "Static IP" on the client itself.
-    
-- **Active Traffic for Discovery:** Pinging the gateway is often not enough for modern "Smart" apps to see a device. A full TCP/HTTPS request (like `curl google.com`) is more likely to trigger device discovery in the ISP's app.
+- **[Docker & OS Admin Manual](01_Knowledge_Base/Lessons_Learned/Docker_&_OS_Administration.md)** (Fixing Docker permissions, Tailscale account errors, and Windows vs Linux shell quirks).

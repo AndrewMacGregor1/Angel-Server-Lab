@@ -28,6 +28,8 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-17: Dedicated Minecraft LXC & Traffic Redirection ](02_SOPs/SOP-17_Dedicated_Minecraft_LXC_&_Traffic_Redirection.md)** — Moves Minecraft container to an independent LXC and sets up drive sharing with NFS and bind mounts.
 - **[SOP-18: Jellyfin Media Server LXC + Hardware Transcoding](02_SOPs/SOP-18_Jellyfin_Media_Server_LXC_+_Hardware_Transcoding.md)** — Setting up jellyfin in it's own independent LXC.
 - **[SOP-19: VPN Protected Ingest VM](02_SOPs/SOP-19_VPN_Protected_Ingest_VM.md)** —  Setting up a VM for torrenting with a kill switch.
+- **[SOP-20: Edge Gateway Migration ISP Bridge Mode](02_SOPs/SOP-20_Edge_Gateway_Migration_&_ISP_Bridge_Mode.md)** — Configuration for my new Ubiquiti Cloud Gateway
+- **[SOP-21 Cisco Layer 2 VLAN Trunking & Ubiquiti AP Deployment](02_SOPs/SOP-21_Cisco_Layer_2_VLAN_Trunking_&_Ubiquiti_AP_Deployment.md)** - My switch configurations to get my new APs working with trunks.
 
 ## 3. Network Topology & Infrastructure
 
