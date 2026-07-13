@@ -30,6 +30,8 @@ These Standard Operating Procedures define the repeatable steps used to build an
 - **[SOP-19: VPN Protected Ingest VM](02_SOPs/SOP-19_VPN_Protected_Ingest_VM.md)** —  Setting up a VM for torrenting with a kill switch.
 - **[SOP-20: Edge Gateway Migration ISP Bridge Mode](02_SOPs/SOP-20_Edge_Gateway_Migration_&_ISP_Bridge_Mode.md)** — Configuration for my new Ubiquiti Cloud Gateway
 - **[SOP-21 Cisco Layer 2 VLAN Trunking & Ubiquiti AP Deployment](02_SOPs/SOP-21_Cisco_Layer_2_VLAN_Trunking_&_Ubiquiti_AP_Deployment.md)** - My switch configurations to get my new APs working with trunks.
+- **[SOP-22: Automated Media Ingestion](02_SOPs/SOP-22_Automated_Media_Ingestion.md)** - Established an isolated VM for running arr stack.
+- **[SOP-23: VLAN 20 Migration & IP Cleanup](02_SOPs/SOP-23_VLAN_20_Migration_&_IP_Cleanup.md)** - Moved all lab services to their own VLAN, gave them fixed IPs, and updated Cisco switch configuration. 
 
 ## 3. Network Topology & Infrastructure
 
